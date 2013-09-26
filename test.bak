@@ -1,0 +1,16 @@
+class test {
+    method init {	
+    	$.w = new window()
+  		$.inherit($.w)
+  		$.chordswindow= new keyselection()
+  		$.addchild($.chordswindow)
+  	}
+	   method redraw {
+	        $.w.redraw()
+	        methodbroadcast()
+	   }
+	  method resize (sz) {
+                if ( nargs() > 0 )
+                      $.w.resize(sz) 	 
+		$.riffstext().resize(xy($.l,$.t,$.r-6*buttonwidth,$.t+ty))          
+  	}

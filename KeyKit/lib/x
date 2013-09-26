@@ -1,0 +1,11 @@
+method allnotesoff(ch,prt) {
+	p = ''
+	for ( pt=0; pt<=127; pt++ ) {
+		nt = makenote(pt)
+		nt.type = NOTEOFF
+		p |= nt
+	}
+	p.chan = ch
+	p.port = $.ports[prt]
+	$.realtime(p)
+}

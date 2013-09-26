@@ -1,0 +1,902 @@
+# This is an example of a minimal tool object.
+# It is capable of being resized, redrawn, dumped, And restored.
+
+class riffselection {
+       method init { Riffselectionobject = $
+                $.w = new window()
+                $.inherit($.w)
+                Maxgroups = 5
+                Maxriffspergroup = 100
+                Maxriffsperpage = 20
+                Currentgroupshowing = 0
+                Currentpageshowing = 0
+                $.npages = 1
+                $.fromgroup = -1
+
+                Selectedriffsarray = []
+                for (i=0;i<Maxgroups;i=i+1) {
+                	Selectedriffsarray[i] = []
+                	for (j=0;j<Maxriffspergroup+1;j=j+1)
+                			Selectedriffsarray[i][j] = [ "riffname" = "-",
+                																	 "selected" = 0 ,
+																									 "phrase" = '' ]
+                }
+                Selectedgroupsarray = []
+                for (i=0;i<Maxgroups;i=i+1)
+                	Selectedgroupsarray[i] = [ "groupname" = "Group " + string(i) , "nriffs" = 0 , "selected" = 0 ]
+
+
+
+                $.riffstext = new ktoggle("             Riffs",$,"Riffstext")
+                
+                $.addchild($.riffstext)
+                $.riffstext.set(0) $.riffstext.redraw()
+                $.group0toggle = new ktoggle("Group 0",$,"Group0toggle")
+                $.group1toggle = new ktoggle("Group 1",$,"Group1toggle")
+								$.group2toggle = new ktoggle("Group 2",$,"Group2toggle")
+								$.group3toggle = new ktoggle("Group 3",$,"Group3toggle")
+								$.group4toggle = new ktoggle("Group 4",$,"Group4toggle")
+
+                $.addchild($.group0toggle)
+                $.addchild($.group1toggle)
+                $.addchild($.group2toggle)
+                $.addchild($.group3toggle)
+                $.addchild($.group4toggle)
+
+                $.text1 = new ktoggle("chopin1",$,"Text1")
+                $.text2 = new ktoggle("Blues Waller",$,"Text2")
+                $.text3 = new ktoggle("Chopin nocturne",$,"Text3")
+                $.text4 = new ktoggle("Text4",$,"Text4")
+                $.text5 = new ktoggle("Text5",$,"Text5")
+                $.text6 = new ktoggle("Text6",$,"Text6")
+                $.text7 = new ktoggle("Text7",$,"Text7")
+                $.text8 = new ktoggle("Text8",$,"Text8")
+                $.text9 = new ktoggle("Text9",$,"Text9")
+
+                $.text10 = new ktoggle("Text10",$,"Text10")
+                $.text11 = new ktoggle("Text11",$,"Text11")
+                $.text12 = new ktoggle("Text12",$,"Text12")
+                $.text13 = new ktoggle("Text13",$,"Text13")
+                $.text14 = new ktoggle("Text14",$,"Text14")
+                $.text15 = new ktoggle("Text15",$,"Text15")
+                $.text16 = new ktoggle("Text16",$,"Text16")
+                $.text17 = new ktoggle("Text17",$,"Text17")
+                $.text18 = new ktoggle("Text18",$,"Text18")
+                $.text19 = new ktoggle("Text19",$,"Text19")
+
+                $.text20 = new ktoggle("Text20",$,"Text20")
+
+                $.addchild($.text1)
+                $.addchild($.text2)
+                $.addchild($.text3)
+                $.addchild($.text4)
+                $.addchild($.text5)
+                $.addchild($.text6)
+                $.addchild($.text7)
+                $.addchild($.text8)
+                $.addchild($.text9)
+
+                $.addchild($.text10)
+                $.addchild($.text11)
+                $.addchild($.text12)
+                $.addchild($.text13)
+                $.addchild($.text14)
+                $.addchild($.text15)
+                $.addchild($.text16)
+                $.addchild($.text17)
+                $.addchild($.text18)
+                $.addchild($.text19)
+
+                $.addchild($.text20)
+
+                $.leftbutton = new ktoggle("<",$,"Leftbutton")
+                $.rightbutton = new ktoggle(">",$,"Rightbutton")
+                $.addchild($.leftbutton)
+                $.addchild($.rightbutton)
+
+                $.selectbutton = new ktoggle("Select",$,"Selectbutton")
+                $.newbutton = new ktoggle("New",$,"Newbutton")
+                $.editbutton = new ktoggle("Edit",$,"Editbutton")
+                $.deletebutton = new ktoggle("Delete",$,"Deletebutton")
+                $.groupbutton = new ktoggle("Move",$,"Groupbutton")
+                $.playbutton = new ktoggle("Play",$,"Playbutton")
+                $.buttonclicked = "Selectbutton"
+
+                $.addchild($.newbutton)
+                $.addchild($.editbutton)
+                $.addchild($.deletebutton)
+                $.addchild($.groupbutton)
+                $.addchild($.selectbutton)
+                $.addchild($.playbutton)
+
+                $.showgroup0 = new ktoggle("->",$,"Showgroup0")
+                $.showgroup1 = new ktoggle("->",$,"Showgroup1")
+                $.showgroup2 = new ktoggle("->",$,"Showgroup2")
+                $.showgroup3 = new ktoggle("->",$,"Showgroup3")
+                $.showgroup4 = new ktoggle("->",$,"Showgroup4")
+
+                $.addchild($.showgroup0)
+                $.addchild($.showgroup1)
+                $.addchild($.showgroup2)
+                $.addchild($.showgroup3)
+                $.addchild($.showgroup4)
+
+                $.Showgroup0()
+                $.Selectbutton()
+        }
+
+        method redraw {
+                $.w.redraw()
+                methodbroadcast()
+        }
+        method resize (sz) {
+                if ( nargs() > 0 )
+                        $.w.resize(sz)
+
+                margin=3
+                $.t = $.ymin()
+			        	$.b = $.ymax()
+
+			        	$.l = $.xmin()
+			        	$.r = $.xmax()
+
+			        	ty = $.textheight() + 4
+			        	tx = 4*$.textwidth()
+			          dy = ($.b-$.t-ty-4*margin)/5
+
+
+
+			        	$.y1 = $.t+ty
+			        	$.y2 = $.y1 + dy + margin
+			        	$.y3 = $.y2 + dy + margin
+								$.y4 = $.y3 + dy + margin
+								$.y5 = $.y4 + dy	+ margin
+
+								$.y6 = $.y5 + dy
+								$.y7 = $.y1 + 6*dy
+								$.y8 = $.y1 + 7*dy
+								$.y9 = $.y1 + 8*dy
+								$.y10 = $.y1 + 10*dy
+
+								dx = ($.r-$.l-2*tx-2*margin)/5
+								$.x1 = $.l
+								$.x2 = $.x1 + dx
+								$.x3 = $.x2 + tx+margin
+								$.x4 = $.x3 + dx
+								$.x5 = $.x4 + dx
+								$.x6 = $.x5 + dx
+								$.x7 = $.x6 + dx
+								$.x8 = $.r
+
+								groupselectwidth = $.textwidth()*2+5
+								x1a = $.x2-margin-groupselectwidth
+								buttonwidth=$.textwidth()*7
+			        	$.riffstext.resize(xy($.l,$.t,$.r-6*buttonwidth,$.t+ty))
+			        	$.selectbutton.resize(xy($.r-6*buttonwidth,$.t,$.r-5*buttonwidth,$.t+ty-3))
+			        	$.playbutton.resize(xy($.r-5*buttonwidth,$.t,$.r-4*buttonwidth,$.t+ty-3))
+			        	$.newbutton.resize(xy($.r-4*buttonwidth,$.t,$.r-3*buttonwidth,$.t+ty-3))
+                $.editbutton.resize(xy($.r-3*buttonwidth,$.t,$.r-2*buttonwidth,$.t+ty-3))
+                $.groupbutton.resize(xy($.r-2*buttonwidth,$.t,$.r-1*buttonwidth,$.t+ty-3))
+                $.deletebutton.resize(xy($.r-1*buttonwidth,$.t,$.r-0*buttonwidth,$.t+ty-3))
+
+
+			        	$.group0toggle.resize(xy($.x1,$.y1,x1a-3,$.y2-margin))
+			          $.group1toggle.resize(xy($.x1,$.y2,x1a-3,$.y3-margin))
+								$.group2toggle.resize(xy($.x1,$.y3,x1a-3,$.y4-margin))
+								$.group3toggle.resize(xy($.x1,$.y4,x1a-3,$.y5-margin))
+								$.group4toggle.resize(xy($.x1,$.y5,x1a-3,$.b))
+
+								$.showgroup0.resize(xy(x1a,$.y1,$.x2-margin,$.y2-margin))
+			          $.showgroup1.resize(xy(x1a,$.y2,$.x2-margin,$.y3-margin))
+								$.showgroup2.resize(xy(x1a,$.y3,$.x2-margin,$.y4-margin))
+								$.showgroup3.resize(xy(x1a,$.y4,$.x2-margin,$.y5-margin))
+								$.showgroup4.resize(xy(x1a,$.y5,$.x2-margin,$.b))
+
+								$.text1.resize(xy($.x3,$.y1,$.x4-margin,$.y2-margin))
+								$.text2.resize(xy($.x3,$.y2,$.x4-margin,$.y3-margin))
+								$.text3.resize(xy($.x3,$.y3,$.x4-margin,$.y4-margin))
+								$.text4.resize(xy($.x3,$.y4,$.x4-margin,$.y5-margin))
+								$.text5.resize(xy($.x3,$.y5,$.x4-margin,$.b))
+
+								$.text6.resize(xy($.x4,$.y1,$.x5-margin,$.y2-margin))
+                $.text7.resize(xy($.x4,$.y2,$.x5-margin,$.y3-margin))
+                $.text8.resize(xy($.x4,$.y3,$.x5-margin,$.y4-margin))
+                $.text9.resize(xy($.x4,$.y4,$.x5-margin,$.y5-margin))
+                $.text10.resize(xy($.x4,$.y5,$.x5-margin,$.b))
+
+                $.text11.resize(xy($.x5,$.y1,$.x6-margin,$.y2-margin))
+                $.text12.resize(xy($.x5,$.y2,$.x6-margin,$.y3-margin))
+                $.text13.resize(xy($.x5,$.y3,$.x6-margin,$.y4-margin))
+                $.text14.resize(xy($.x5,$.y4,$.x6-margin,$.y5-margin))
+                $.text15.resize(xy($.x5,$.y5,$.x6-margin,$.b))
+
+                $.text16.resize(xy($.x6,$.y1,$.x7-margin,$.y2-margin))
+                $.text17.resize(xy($.x6,$.y2,$.x7-margin,$.y3-margin))
+                $.text18.resize(xy($.x6,$.y3,$.x7-margin,$.y4-margin))
+                $.text19.resize(xy($.x6,$.y4,$.x7-margin,$.y5-margin))
+                $.text20.resize(xy($.x6,$.y5,$.x7-margin,$.b))
+
+								$.leftbutton.resize(xy($.x2+10,$.y1+10,$.x3-10,$.b-10))
+								$.rightbutton.resize(xy($.x7+10,$.y1+10,$.r-10,$.b-10))
+
+
+
+        }
+
+        method Showgroup0 { 
+        	Chordselectionobject.adjustplayordertoggles("riffs")
+        	togroup=0
+        	if ($.buttonclicked == "groupbutton") 
+					 	if($.fromgroup != -1) 
+								if($.fromgroup != togroup) 
+											if (Selectedgroupsarray[togroup]["nriffs"]+1<Maxriffspergroup) {
+													nriffs = Selectedgroupsarray[togroup]["nriffs"]++
+													Selectedriffsarray[togroup][nriffs]["riffname"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["riffname"]
+													Selectedriffsarray[togroup][nriffs]["selected"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["selected"]
+													Selectedriffsarray[togroup][nriffs]["phrase"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["phrase"]
+													
+													for (i=$.frompage*20+$.fromn;i<Selectedgroupsarray[$.fromgroup]["nriffs"]-1;i++) {
+							      				 Selectedriffsarray[$.fromgroup][i]["riffname"]=Selectedriffsarray[$.fromgroup][i+1]["riffname"]
+							      				 Selectedriffsarray[$.fromgroup][i]["selected"]=Selectedriffsarray[$.fromgroup][i+1]["selected"]
+							      				 Selectedriffsarray[$.fromgroup][i]["phrase"]=Selectedriffsarray[$.fromgroup][i+1]["phrase"]
+													}
+							      			Selectedriffsarray[$.fromgroup][i]["riffname"]="-"
+							      			Selectedriffsarray[$.fromgroup][i]["selected"]=0
+							      			Selectedriffsarray[$.fromgroup][i]["phrase"]=''
+							      			Selectedgroupsarray[$.fromgroup]["nriffs"]--
+							      			
+							      			$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+													if(Currentpageshowing>$.npages-1) Currentpageshowing = $.npages-1
+													$.setleftrightbuttons()
+													$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+													$.Selectbutton()
+													$.fromgroup = -1
+													$.setshowbutton(Currentgroupshowing)
+													return()
+																						
+											}
+											else { print("Too many riffs in this group.") $.fromgroup = -1 $.Selectbutton() return()
+											}
+								else { print("Can't move to the same group.")  return()
+								}
+						else { print("Choose a riff to move first.")  return()
+						}
+						Currentgroupshowing = 0 Currentpageshowing = 0
+						$.setshowbutton(Currentgroupshowing)
+						$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+						if (Selectedgroupsarray[Currentgroupshowing]["nriffs"] == 0) $.npages = 1
+						else	$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+						$.setleftrightbuttons()
+      	}
+      	method Showgroup1 { 
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+      		togroup=1
+        	if ($.buttonclicked == "groupbutton") 
+					 	if($.fromgroup != -1) 
+								if($.fromgroup != togroup) 
+											if (Selectedgroupsarray[togroup]["nriffs"]+1<Maxriffspergroup) {
+													nriffs = Selectedgroupsarray[togroup]["nriffs"]++
+													Selectedriffsarray[togroup][nriffs]["riffname"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["riffname"]
+													Selectedriffsarray[togroup][nriffs]["selected"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["selected"]
+													Selectedriffsarray[togroup][nriffs]["phrase"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["phrase"]
+													
+													for (i=$.frompage*20+$.fromn;i<Selectedgroupsarray[$.fromgroup]["nriffs"]-1;i++) {
+							      				 Selectedriffsarray[$.fromgroup][i]["riffname"]=Selectedriffsarray[$.fromgroup][i+1]["riffname"]
+							      				 Selectedriffsarray[$.fromgroup][i]["selected"]=Selectedriffsarray[$.fromgroup][i+1]["selected"]
+							      				 Selectedriffsarray[$.fromgroup][i]["phrase"]=Selectedriffsarray[$.fromgroup][i+1]["phrase"]
+													}
+							      			Selectedriffsarray[$.fromgroup][i]["riffname"]="-"
+							      			Selectedriffsarray[$.fromgroup][i]["selected"]=0
+							      			Selectedriffsarray[$.fromgroup][i]["phrase"]=''
+							      			Selectedgroupsarray[$.fromgroup]["nriffs"]--
+							      			
+							      			$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+													if(Currentpageshowing>$.npages-1) Currentpageshowing = $.npages-1
+													$.setleftrightbuttons()
+													$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+													$.Selectbutton()
+													$.fromgroup = -1
+													$.setshowbutton(Currentgroupshowing)
+													return()
+																						
+											}
+											else { print("Too many riffs in this group.") $.fromgroup = -1 $.Selectbutton() return()
+											}
+								else { print("Can't move to the same group.")  return()
+								}
+						else { print("Choose a riff to move first.")  return()
+						}
+						Currentgroupshowing = 1 Currentpageshowing = 0
+						$.setshowbutton(Currentgroupshowing)
+						$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+						if (Selectedgroupsarray[Currentgroupshowing]["nriffs"] == 0) $.npages = 1
+						else	$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+						$.setleftrightbuttons()
+      	}
+      	method Showgroup2 { 
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+      		togroup=2
+        	if ($.buttonclicked == "groupbutton") 
+					 	if($.fromgroup != -1) 
+								if($.fromgroup != togroup) 
+											if (Selectedgroupsarray[togroup]["nriffs"]+1<Maxriffspergroup) {
+													nriffs = Selectedgroupsarray[togroup]["nriffs"]++
+													Selectedriffsarray[togroup][nriffs]["riffname"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["riffname"]
+													Selectedriffsarray[togroup][nriffs]["selected"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["selected"]
+													Selectedriffsarray[togroup][nriffs]["phrase"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["phrase"]
+													
+													for (i=$.frompage*20+$.fromn;i<Selectedgroupsarray[$.fromgroup]["nriffs"]-1;i++) {
+							      				 Selectedriffsarray[$.fromgroup][i]["riffname"]=Selectedriffsarray[$.fromgroup][i+1]["riffname"]
+							      				 Selectedriffsarray[$.fromgroup][i]["selected"]=Selectedriffsarray[$.fromgroup][i+1]["selected"]
+							      				 Selectedriffsarray[$.fromgroup][i]["phrase"]=Selectedriffsarray[$.fromgroup][i+1]["phrase"]
+													}
+							      			Selectedriffsarray[$.fromgroup][i]["riffname"]="-"
+							      			Selectedriffsarray[$.fromgroup][i]["selected"]=0
+							      			Selectedriffsarray[$.fromgroup][i]["phrase"]=''
+							      			Selectedgroupsarray[$.fromgroup]["nriffs"]--
+							      			
+							      			$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+													if(Currentpageshowing>$.npages-1) Currentpageshowing = $.npages-1
+													$.setleftrightbuttons()
+													$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+													$.Selectbutton()
+													$.fromgroup = -1
+													$.setshowbutton(Currentgroupshowing)
+													return()
+																						
+											}
+											else { print("Too many riffs in this group.") $.fromgroup = -1 $.Selectbutton() return()
+											}
+								else { print("Can't move to the same group.")  return()
+								}
+						else { print("Choose a riff to move first.")  return()
+						}
+						Currentgroupshowing = 2 Currentpageshowing = 0
+						$.setshowbutton(Currentgroupshowing)
+						$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+						if (Selectedgroupsarray[Currentgroupshowing]["nriffs"] == 0) $.npages = 1
+						else	$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+						$.setleftrightbuttons()
+      	}
+      	method Showgroup3 { 
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+      		togroup=3
+        	if ($.buttonclicked == "groupbutton") 
+					 	if($.fromgroup != -1) 
+								if($.fromgroup != togroup) 
+											if (Selectedgroupsarray[togroup]["nriffs"]+1<Maxriffspergroup) {
+													nriffs = Selectedgroupsarray[togroup]["nriffs"]++
+													Selectedriffsarray[togroup][nriffs]["riffname"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["riffname"]
+													Selectedriffsarray[togroup][nriffs]["selected"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["selected"]
+													Selectedriffsarray[togroup][nriffs]["phrase"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["phrase"]
+													
+													for (i=$.frompage*20+$.fromn;i<Selectedgroupsarray[$.fromgroup]["nriffs"]-1;i++) {
+							      				 Selectedriffsarray[$.fromgroup][i]["riffname"]=Selectedriffsarray[$.fromgroup][i+1]["riffname"]
+							      				 Selectedriffsarray[$.fromgroup][i]["selected"]=Selectedriffsarray[$.fromgroup][i+1]["selected"]
+							      				 Selectedriffsarray[$.fromgroup][i]["phrase"]=Selectedriffsarray[$.fromgroup][i+1]["phrase"]
+													}
+							      			Selectedriffsarray[$.fromgroup][i]["riffname"]="-"
+							      			Selectedriffsarray[$.fromgroup][i]["selected"]=0
+							      			Selectedriffsarray[$.fromgroup][i]["phrase"]=''
+							      			Selectedgroupsarray[$.fromgroup]["nriffs"]--
+							      			
+							      			$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+													if(Currentpageshowing>$.npages-1) Currentpageshowing = $.npages-1
+													$.setleftrightbuttons()
+													$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+													$.Selectbutton()
+													$.fromgroup = -1
+													$.setshowbutton(Currentgroupshowing)
+													return()
+																						
+											}
+											else { print("Too many riffs in this group.") $.fromgroup = -1 $.Selectbutton() return()
+											}
+								else { print("Can't move to the same group.")  return()
+								}
+						else { print("Choose a riff to move first.")  return()
+						}
+						Currentgroupshowing = 3 Currentpageshowing = 0
+						$.setshowbutton(Currentgroupshowing)
+						$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+						if (Selectedgroupsarray[Currentgroupshowing]["nriffs"] == 0) $.npages = 1
+						else	$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+						$.setleftrightbuttons()
+      	}
+      	method Showgroup4 { 
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+      		togroup=4
+        	if ($.buttonclicked == "groupbutton") 
+					 	if($.fromgroup != -1) 
+								if($.fromgroup != togroup) 
+											if (Selectedgroupsarray[togroup]["nriffs"]+1<Maxriffspergroup) {
+													nriffs = Selectedgroupsarray[togroup]["nriffs"]++
+													Selectedriffsarray[togroup][nriffs]["riffname"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["riffname"]
+													Selectedriffsarray[togroup][nriffs]["selected"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["selected"]
+													Selectedriffsarray[togroup][nriffs]["phrase"] = Selectedriffsarray[$.fromgroup][$.frompage*20+$.fromn]["phrase"]
+													
+													for (i=$.frompage*20+$.fromn;i<Selectedgroupsarray[$.fromgroup]["nriffs"]-1;i++) {
+							      				 Selectedriffsarray[$.fromgroup][i]["riffname"]=Selectedriffsarray[$.fromgroup][i+1]["riffname"]
+							      				 Selectedriffsarray[$.fromgroup][i]["selected"]=Selectedriffsarray[$.fromgroup][i+1]["selected"]
+							      				 Selectedriffsarray[$.fromgroup][i]["phrase"]=Selectedriffsarray[$.fromgroup][i+1]["phrase"]
+													}
+							      			Selectedriffsarray[$.fromgroup][i]["riffname"]="-"
+							      			Selectedriffsarray[$.fromgroup][i]["selected"]=0
+							      			Selectedriffsarray[$.fromgroup][i]["phrase"]=''
+							      			Selectedgroupsarray[$.fromgroup]["nriffs"]--
+							      			
+							      			$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+													if(Currentpageshowing>$.npages-1) Currentpageshowing = $.npages-1
+													$.setleftrightbuttons()
+													$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+													$.Selectbutton()
+													$.fromgroup = -1
+													$.setshowbutton(Currentgroupshowing)
+													return()
+																						
+											}
+											else { print("Too many riffs in this group.") $.fromgroup = -1 $.Selectbutton() return()
+											}
+								else { print("Can't move to the same group.")  return()
+								}
+						else { print("Choose a riff to move first.")  return()
+						}
+						Currentgroupshowing = 4 Currentpageshowing = 0
+						$.setshowbutton(Currentgroupshowing)
+						$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+						if (Selectedgroupsarray[Currentgroupshowing]["nriffs"] == 0) $.npages = 1
+						else	$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+						$.setleftrightbuttons()
+      	}
+      	
+      	
+      	
+      	method setshowbutton(g) {
+      		if(g==0) $.showgroup0.set(1) else $.showgroup0.set(0)
+      		if(g==1) $.showgroup1.set(1) else $.showgroup1.set(0)
+      		if(g==2) $.showgroup2.set(1) else $.showgroup2.set(0)
+      		if(g==3) $.showgroup3.set(1) else $.showgroup3.set(0)
+      		if(g==4) $.showgroup4.set(1) else $.showgroup4.set(0)
+      		$.showgroup0.redraw()
+					$.showgroup1.redraw()
+					$.showgroup2.redraw()
+					$.showgroup3.redraw()
+					$.showgroup4.redraw()
+      		
+      	}
+      	
+      	method setrifftexts (grouptoshow,pagetoshow) {
+
+								$.text1.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+0]["riffname"]) $.text1.set(Selectedriffsarray[grouptoshow][pagetoshow*20+0]["selected"]) $.text1.redraw()
+                $.text2.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+1]["riffname"]) $.text2.set(Selectedriffsarray[grouptoshow][pagetoshow*20+1]["selected"]) $.text2.redraw()
+                $.text3.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+2]["riffname"]) $.text3.set(Selectedriffsarray[grouptoshow][pagetoshow*20+2]["selected"]) $.text3.redraw()
+                $.text4.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+3]["riffname"]) $.text4.set(Selectedriffsarray[grouptoshow][pagetoshow*20+3]["selected"]) $.text4.redraw()
+                $.text5.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+4]["riffname"]) $.text5.set(Selectedriffsarray[grouptoshow][pagetoshow*20+4]["selected"]) $.text5.redraw()
+                $.text6.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+5]["riffname"]) $.text6.set(Selectedriffsarray[grouptoshow][pagetoshow*20+5]["selected"]) $.text6.redraw()
+                $.text7.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+6]["riffname"]) $.text7.set(Selectedriffsarray[grouptoshow][pagetoshow*20+6]["selected"]) $.text7.redraw()
+                $.text8.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+7]["riffname"]) $.text8.set(Selectedriffsarray[grouptoshow][pagetoshow*20+7]["selected"]) $.text8.redraw()
+                $.text9.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+8]["riffname"]) $.text9.set(Selectedriffsarray[grouptoshow][pagetoshow*20+8]["selected"]) $.text9.redraw()
+
+                $.text10.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+9]["riffname"]) $.text10.set(Selectedriffsarray[grouptoshow][pagetoshow*20+9]["selected"]) $.text10.redraw()
+                $.text11.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+10]["riffname"]) $.text11.set(Selectedriffsarray[grouptoshow][pagetoshow*20+10]["selected"]) $.text11.redraw()
+                $.text12.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+11]["riffname"]) $.text12.set(Selectedriffsarray[grouptoshow][pagetoshow*20+11]["selected"]) $.text12.redraw()
+                $.text13.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+12]["riffname"]) $.text13.set(Selectedriffsarray[grouptoshow][pagetoshow*20+12]["selected"]) $.text13.redraw()
+                $.text14.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+13]["riffname"]) $.text14.set(Selectedriffsarray[grouptoshow][pagetoshow*20+13]["selected"]) $.text14.redraw()
+                $.text15.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+14]["riffname"]) $.text15.set(Selectedriffsarray[grouptoshow][pagetoshow*20+14]["selected"]) $.text15.redraw()
+                $.text16.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+15]["riffname"]) $.text16.set(Selectedriffsarray[grouptoshow][pagetoshow*20+15]["selected"]) $.text16.redraw()
+                $.text17.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+16]["riffname"]) $.text17.set(Selectedriffsarray[grouptoshow][pagetoshow*20+16]["selected"]) $.text17.redraw()
+                $.text18.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+17]["riffname"]) $.text18.set(Selectedriffsarray[grouptoshow][pagetoshow*20+17]["selected"]) $.text18.redraw()
+                $.text19.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+18]["riffname"]) $.text19.set(Selectedriffsarray[grouptoshow][pagetoshow*20+18]["selected"]) $.text19.redraw()
+
+                $.text20.settext(Selectedriffsarray[grouptoshow][pagetoshow*20+19]["riffname"]) $.text20.set(Selectedriffsarray[grouptoshow][pagetoshow*20+19]["selected"]) $.text20.redraw()
+                # $.redraw()
+      	}
+
+        method Leftbutton {
+        	if($.leftbuttonfunctioning)  $.setrifftexts(Currentgroupshowing,--Currentpageshowing)
+        	$.setleftrightbuttons()
+      	}
+      	method Rightbutton {
+      		if($.rightbuttonfunctioning)  $.setrifftexts(Currentgroupshowing,++Currentpageshowing)
+      		$.setleftrightbuttons()
+      	}
+      	method setleftrightbuttons() {
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+      		$.rightbutton.set(0)
+      		$.leftbutton.set(0)
+      		if ($.leftbuttonfunctioning = Currentpageshowing) { $.leftbutton.settext("<") $.leftbutton.style(BORDER)  }
+      		else {  $.leftbutton.settext("") $.leftbutton.style(NOBORDER)  }
+      		if ($.rightbuttonfunctioning = $.npages-1-Currentpageshowing) { $.rightbutton.settext(">") $.rightbutton.style(BORDER)  }
+      		else { $.rightbutton.settext("") $.rightbutton.style(NOBORDER)  }
+      		$.rightbutton.redraw()
+      	  $.leftbutton.redraw()
+      	}
+
+      	method Selectbutton {
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+      		$.buttonclicked = "selectbutton"
+      		$.selectbutton.set(1) $.selectbutton.redraw()
+          $.newbutton.set(0) $.newbutton.redraw()
+          $.editbutton.set(0) $.editbutton.redraw()
+          $.deletebutton.set(0) $.deletebutton.redraw()
+          $.groupbutton.set(0) $.groupbutton.redraw()
+          $.playbutton.set(0) $.playbutton.redraw()
+          $.riffstext.settext("             Riffs") $.riffstext.redraw()
+        }
+        method Newbutton {
+        	Chordselectionobject.adjustplayordertoggles("riffs")
+      		$.buttonclicked = "newbutton"
+      		$.selectbutton.set(0) $.selectbutton.redraw()
+          $.newbutton.set(1) $.newbutton.redraw()
+          $.editbutton.set(0) $.editbutton.redraw()
+          $.deletebutton.set(0) $.deletebutton.redraw()
+          $.groupbutton.set(0) $.groupbutton.redraw()
+          $.playbutton.set(0) $.playbutton.redraw()
+          
+       		put(Mymidififo,"Stop")
+          bpm(120)
+          fromtime=Now #print("fromtime",fromtime) 
+          $.s = getastr("Play new riff and type its name to retain it(or <CR> to abort) -> ","")
+					totime=Now #print("totime",totime)
+					if ( $.s != "")
+						if (Selectedgroupsarray[Currentgroupshowing]["nriffs"]+1<Maxriffspergroup) {
+								nriffs = Selectedgroupsarray[Currentgroupshowing]["nriffs"]++
+								Selectedriffsarray[Currentgroupshowing][nriffs]["riffname"] = $.s
+								$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+								Currentpageshowing = $.npages-1
+								$.setleftrightbuttons()
+								$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+								#get phrase from Recorded
+								cutriff = cut(Recorded,CUT_TIME,fromtime,totime)
+								newriff = ''
+								begintime=cutriff%1.time
+								#print("begintime",begintime)
+								for (note in cutriff) {
+									#print("note",note)
+									notenotime=makenote(note.pitch,note.duration,note.volume)\
+									#print("no time",notenotime)
+									#print("time of orig.note",note.time)
+									notenotime.time=note.time-begintime
+									#print("notenotime plus time",notenotime)
+									newriff = newriff | notenotime
+								}		
+								#print(newriff) 
+								
+								
+								
+								Selectedriffsarray[Currentgroupshowing][nriffs]["phrase"]=newriff
+								setkeysounds($.s,newriff)
+								#print("Phrase",newriff,Selectedriffsarray[Currentgroupshowing][nriffs]["phrase"])
+						}
+						else print("Too many riffs in this group!!")
+					$.Selectbutton()
+					
+        }
+        method Editbutton {
+        	Chordselectionobject.adjustplayordertoggles("riffs")
+      		$.buttonclicked = "editbutton"
+      		$.selectbutton.set(0) $.selectbutton.redraw()
+          $.newbutton.set(0) $.newbutton.redraw()
+          $.editbutton.set(1) $.editbutton.redraw()
+          $.deletebutton.set(0) $.deletebutton.redraw()
+          $.groupbutton.set(0) $.groupbutton.redraw()
+          $.playbutton.set(0) $.playbutton.redraw()
+        }
+        method Deletebutton {
+        	Chordselectionobject.adjustplayordertoggles("riffs")
+      		$.buttonclicked = "deletebutton"
+      		$.selectbutton.set(0) $.selectbutton.redraw()
+          $.newbutton.set(0) $.newbutton.redraw()
+          $.editbutton.set(0) $.editbutton.redraw()
+          $.deletebutton.set(1) $.deletebutton.redraw()
+          $.groupbutton.set(0) $.groupbutton.redraw()
+          $.playbutton.set(0) $.playbutton.redraw()
+
+
+        }
+        method Groupbutton {
+        	Chordselectionobject.adjustplayordertoggles("riffs")
+      		$.buttonclicked = "groupbutton"
+      		$.selectbutton.set(0) $.selectbutton.redraw()
+          $.newbutton.set(0) $.newbutton.redraw()
+          $.editbutton.set(0) $.editbutton.redraw()
+          $.deletebutton.set(0) $.deletebutton.redraw()
+          $.groupbutton.set(1) $.groupbutton.redraw()
+          $.playbutton.set(0) $.playbutton.redraw()
+        }
+        method Playbutton {
+        	Chordselectionobject.adjustplayordertoggles("riffs")
+      		$.buttonclicked = "playbutton"
+      		$.selectbutton.set(0) $.selectbutton.redraw()
+          $.newbutton.set(0) $.newbutton.redraw()
+          $.editbutton.set(0) $.editbutton.redraw()
+          $.deletebutton.set(0) $.deletebutton.redraw()
+          $.groupbutton.set(0) $.groupbutton.redraw()
+          $.playbutton.set(1) $.playbutton.redraw()
+        }
+        
+      	method Group0toggle {
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+        	group = 0
+      		if ($.buttonclicked == "editbutton") {
+      			$.group0toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group0toggle.redraw()
+      			$.s = getastr("Type new group name (or <CR> to abort) -> ","")
+						if ( $.s != "") {
+							$.group0toggle.settext(Selectedgroupsarray[group]["groupname"] = $.s)
+							$.group0toggle.redraw()
+							$.Selectbutton()
+						}
+					return()
+					}
+					if ($.buttonclicked == "groupbutton") {
+						$.group0toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group0toggle.redraw()
+						#$.Selectbutton()
+						if ($.fromgroup == -1) print("Choose a riff first and then click a -> button.")
+						else print("Click the -> buttons not the group buttons.")
+						#$.fromgroup = -1
+						return()
+					}
+					
+					Selectedgroupsarray[group]["selected"] = 1 - Selectedgroupsarray[group]["selected"]
+      	}
+      	method Group1toggle {
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+        	group = 1
+      		if ($.buttonclicked == "editbutton") {
+      			$.group1toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group1toggle.redraw()
+      			$.s = getastr("Type new group name (or <CR> to abort) -> ","")
+						if ( $.s != "") {
+							$.group1toggle.settext(Selectedgroupsarray[group]["groupname"] = $.s)
+							$.group1toggle.redraw()
+							$.Selectbutton()
+						}
+					return()
+					}
+					if ($.buttonclicked == "groupbutton") {
+						$.group1toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group1toggle.redraw()
+						#$.Selectbutton()
+						if ($.fromgroup == -1) print("Choose a riff first and then click a -> button.")
+						else print("Click the -> buttons not the group buttons.")
+						#$.fromgroup = -1
+						return()
+					}
+					Selectedgroupsarray[group]["selected"] = 1 - Selectedgroupsarray[group]["selected"]
+      	}
+      	method Group2toggle {
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+        	group = 2
+      		if ($.buttonclicked == "editbutton") {
+      			$.group2toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group2toggle.redraw()
+      			$.s = getastr("Type new group name (or <CR> to abort) -> ","")
+						if ( $.s != "") {
+							$.group2toggle.settext(Selectedgroupsarray[group]["groupname"] = $.s)
+							$.group2toggle.redraw()
+							$.Selectbutton()
+						}
+					return()
+					}
+					if ($.buttonclicked == "groupbutton") {
+						$.group2toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group2toggle.redraw()
+						#$.Selectbutton()
+						if ($.fromgroup == -1) print("Choose a riff first and then click a -> button.")
+						else print("Click the -> buttons not the group buttons.")
+						#$.fromgroup = -1
+						return()
+					}
+					Selectedgroupsarray[group]["selected"] = 1 - Selectedgroupsarray[group]["selected"]
+      	}
+      	method Group3toggle {
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+        	group = 3
+      		if ($.buttonclicked == "editbutton") {
+      			$.group3toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group3toggle.redraw()
+      			$.s = getastr("Type new group name (or <CR> to abort) -> ","")
+						if ( $.s != "") {
+							$.group3toggle.settext(Selectedgroupsarray[group]["groupname"] = $.s)
+							$.group3toggle.redraw()
+							$.Selectbutton()
+						}
+					return()
+					}
+					if ($.buttonclicked == "groupbutton") {
+						$.group3toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group3toggle.redraw()
+						#$.Selectbutton()
+						if ($.fromgroup == -1) print("Choose a riff first and then click a -> button.")
+						else print("Click the -> buttons not the group buttons.")
+						#$.fromgroup = -1
+						return()
+					}
+					Selectedgroupsarray[group]["selected"] = 1 - Selectedgroupsarray[group]["selected"]
+      	}
+      	method Group4toggle {
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+        	group = 4
+      		if ($.buttonclicked == "editbutton") {
+      			$.group4toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group4toggle.redraw()
+      			$.s = getastr("Type new group name (or <CR> to abort) -> ","")
+						if ( $.s != "") {
+							$.group4toggle.settext(Selectedgroupsarray[group]["groupname"] = $.s)
+							$.group4toggle.redraw()
+							$.Selectbutton()
+						}
+					return()
+					}
+					if ($.buttonclicked == "groupbutton") {
+						$.group4toggle.set(Selectedgroupsarray[group]["selected"])
+						$.group4toggle.redraw()
+						#$.Selectbutton()
+						if ($.fromgroup == -1) print("Choose a riff first and then click a -> button.")
+						else print("Click the -> buttons not the group buttons.")
+						#$.fromgroup = -1
+						return()
+					}
+					Selectedgroupsarray[group]["selected"] = 1 - Selectedgroupsarray[group]["selected"]
+      	}
+      	
+
+      	method Text1 { $.textclicked($.text1,0) }
+      	method Text2 { $.textclicked($.text2,1) }
+      	method Text3 { $.textclicked($.text3,2) }
+      	method Text4 { $.textclicked($.text4,3) }
+      	method Text5 { $.textclicked($.text5,4) }
+      	method Text6 { $.textclicked($.text6,5) }
+      	method Text7 { $.textclicked($.text7,6) }
+      	method Text8 { $.textclicked($.text8,7) }
+      	method Text9 { $.textclicked($.text9,8) }
+      	method Text10 { $.textclicked($.text10,9) }
+
+      	method Text11 { $.textclicked($.text11,10) }
+      	method Text12 { $.textclicked($.text12,11) }
+      	method Text13 { $.textclicked($.text13,12) }
+      	method Text14 { $.textclicked($.text14,13) }
+      	method Text15 { $.textclicked($.text15,14) }
+      	method Text16 { $.textclicked($.text16,15) }
+      	method Text17 { $.textclicked($.text17,16) }
+      	method Text18 { $.textclicked($.text18,17) }
+      	method Text19 { $.textclicked($.text19,18) }
+      	method Text20 { $.textclicked($.text20,19) }
+
+
+      	method textclicked(obj,n) {
+      		Chordselectionobject.adjustplayordertoggles("riffs")
+      		#print("Clicked: ",n," nriff=",Selectedgroupsarray[Currentgroupshowing]["nriffs"])
+      		
+      		if(Currentpageshowing*20+n > Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1)
+      			{ obj.set(0) obj.redraw() return() }
+      		
+      		if($.buttonclicked == "deletebutton") {
+
+      			for (i=Currentpageshowing*20+n;i<Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1;i++) {
+      				 Selectedriffsarray[Currentgroupshowing][i]["riffname"]=Selectedriffsarray[Currentgroupshowing][i+1]["riffname"]
+      				 Selectedriffsarray[Currentgroupshowing][i]["selected"]=Selectedriffsarray[Currentgroupshowing][i+1]["selected"]
+      				 Selectedriffsarray[Currentgroupshowing][i]["phrase"]=Selectedriffsarray[Currentgroupshowing][i+1]["phrase"]
+      			}
+      			Selectedriffsarray[Currentgroupshowing][i]["riffname"]="-"
+      			Selectedriffsarray[Currentgroupshowing][i]["selected"]=0
+      			Selectedgroupsarray[Currentgroupshowing]["nriffs"]--
+
+      			$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+						if(Currentpageshowing>$.npages-1) Currentpageshowing = $.npages-1
+						$.setleftrightbuttons()
+						$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+						$.Selectbutton()
+						#print("nriff=",Selectedgroupsarray[Currentgroupshowing]["nriffs"])
+      			return()
+      		}
+      		if ($.buttonclicked == "editbutton") {
+      			obj.set(Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["selected"]) obj.redraw()
+      			bpm(120)
+      			put(Mymidififo,"Stop")
+      			fromtime = Now
+      			$.s = getastr("Play new riff and/or type a new name (<CR> retains originals)-> ","")
+						totime = Now
+						if ( $.s != "") {
+						Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["riffname"] = $.s
+						#$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+						obj.settext($.s) obj.redraw()
+						}
+						#get phrase from Recorded
+						cutriff = cut(Recorded,CUT_TIME,fromtime,totime)
+								newriff = ''
+								begintime=cutriff%1.time
+								#print("begintime",begintime)
+								for (note in cutriff) {
+									#print("note",note)
+									notenotime=makenote(note.pitch,note.duration,note.volume)\
+									#print("no time",notenotime)
+									#print("time of orig.note",note.time)
+									notenotime.time=note.time-begintime
+									#print("notenotime plus time",notenotime)
+									newriff = newriff | notenotime
+								}		
+								#print(newriff)
+						Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["phrase"]=newriff
+						#print(Currentgroupshowing,Currentpageshowing,n,Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["phrase"])
+      			setkeysounds($.s,newriff)
+      			$.Selectbutton()
+      		return() 
+      		}
+      		if ($.buttonclicked == "playbutton") {
+      			finishoff()
+      			obj.set(Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["selected"]) obj.redraw()
+      			#print(Currentgroupshowing,Currentpageshowing,n,Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["phrase"])
+      			bpm(120)
+      			realtime(Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["phrase"])
+      			
+      			return()
+      		}
+      		if ($.buttonclicked == "groupbutton") {
+      					obj.set(Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["selected"]) obj.redraw()
+      					$.fromgroup = Currentgroupshowing
+      					$.frompage = Currentpageshowing
+      					$.fromn = n
+      					$.riffstext.settext("Moving riff " + Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["riffname"])
+		      			$.riffstext.redraw()
+		      			return()
+      			}
+      			
+      		Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["selected"]= 1 -
+      			Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["selected"]
+      		
+      		#print("Phrase",Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["phrase"])
+					finishoff()
+					#bpm(120)
+					#realtime(Selectedriffsarray[Currentgroupshowing][Currentpageshowing*20+n]["phrase"])
+      		#realtime('a')
+      		
+      			
+      }
+      
+      method riffsetstate() {
+      	if(Currentlyselectingn==3) { $.riffstext.settext("-> Riffs <-")  }
+								else $.riffstext.settext("Riffs")
+				$.Selectbutton()
+      	$.group0toggle.set(Selectedgroupsarray[0]["selected"])
+      	$.group1toggle.set(Selectedgroupsarray[1]["selected"])
+      	$.group2toggle.set(Selectedgroupsarray[2]["selected"])
+      	$.group3toggle.set(Selectedgroupsarray[3]["selected"])
+      	$.group4toggle.set(Selectedgroupsarray[4]["selected"])
+      	if (Selectedgroupsarray[Currentgroupshowing]["nriffs"] == 0) $.npages = 1
+						else	$.npages = integer( (Selectedgroupsarray[Currentgroupshowing]["nriffs"]-1) / Maxriffsperpage) + 1
+		  	$.setshowbutton(Currentgroupshowing)
+      	$.setrifftexts(Currentgroupshowing,Currentpageshowing)
+      	$.setleftrightbuttons()
+      	$.redraw()
+    
+    	}
+    	
+    	method Riffstext { 	$.riffstext.settext("-> Riffs <-")
+    											$.riffstext.set(0) $.riffstext.redraw() 
+    											Chordselectionobject.adjustplayordertoggles("riffs")
+    											
+    	}
+    	
+    	method unselectriffstext {
+    										$.riffstext.settext("Riffs") $.riffstext.redraw() }
+    	
+    	method setkeysounds(str,phr) {
+    		if (str=="c") Keysounds[0]=phr
+    		if (str=="db") Keysounds[1]=phr
+    		if (str=="d") Keysounds[2]=phr
+    		if (str=="eb") Keysounds[3]=phr
+    		if (str=="e") Keysounds[4]=phr
+    		if (str=="f") Keysounds[5]=phr
+    		if (str=="gb") Keysounds[6]=phr
+    		if (str=="g") Keysounds[7]=phr
+    		if (str=="ab") Keysounds[8]=phr
+    		if (str=="a") Keysounds[9]=phr
+    		if (str=="bb") Keysounds[10]=phr
+    		if (str=="b") Keysounds[11]=phr
+    		
+    	}
+}
+

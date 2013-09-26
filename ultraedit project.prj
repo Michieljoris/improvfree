@@ -1,0 +1,40 @@
+[Project ID]
+Signature=UE Proj: v.1
+[Project Information]
+Use Relative Directory=1
+Relative to Project File=1
+Project Start=D6070C000400150000002E000500000035
+Filter=
+Include Sub Directories=1
+Project Tagfile=
+Project Wordfile=
+Create Tagfile=0
+Working Time=214080
+[Files]
+0=keyselection.k
+1=mycode.k
+2=chordselection.k
+[Open Files]
+Open File0=.\chordselection.k
+Open File Pos0=20204
+Open File Line0=20057
+Open File Window Pos0=0,1,-1,-1,-4,-23,0,292,834,584
+Open File1=.\keyselection.k
+Open File Pos1=79
+Open File Line1=7547
+Open File Window Pos1=2,2,0,593,-4,-23,0,0,834,292
+Open File2=.\mycode.k
+Open File Pos2=85
+Open File Line2=0
+Active File Index=2
+Open File Window Pos2=2,3,-1,-1,-4,-23,66,66,724,474
+Open File3=F:\MIJN FILES\Keykit files\riffselection.k
+Open File Pos3=16320
+Open File Line3=15305
+Open File Window Pos3=0,1,-1,-1,-4,-23,198,198,686,617
+Open File4=C:\temp\test.k
+Open File Pos4=0
+Open File Line4=243
+Open File Window Pos4=0,1,-1,-1,-4,-23,22,22,617,441
+Open File5=
+Active File Display Mode=3

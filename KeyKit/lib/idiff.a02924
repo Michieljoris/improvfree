@@ -1,0 +1,70 @@
+940c940,942
+< 	$.TRANS_down_tm2 = 0
+---
+> 	$.TRANS_count = 0
+> 	$.TRANS_all = 0
+> 	$.TRANS_val = 0
+3295c3297,3299
+< 		$.TRANS_down_tm2 = $.TRANS_down_tm1
+---
+> 		$.TRANS_count = 0
+> 		$.TRANS_all = 0
+> 		$.TRANS_val = 0
+3842,3859c3846
+< 		p = canonic(c)
+< 		if ( p >= 0 && p <=6 )
+< 			tr = p
+< 		else 
+< 			tr = p - 12
+< 		if ( tr == 0 )
+< 			tr = 999
+< 		if ( $.go_mode ) {
+< 			$.trans_pending = tr
+< 			if($.debug)print("trans_pending = ",tr)
+< 		} else {
+< 			dt = $.TRANS_down_tm1 - $.TRANS_down_tm2
+< 			if ( dt < milliclicks(1000) )
+< 				allchans = 1
+< 			else
+< 				allchans = 0
+< 			$.do_trans(tr,allchans)
+< 		}
+---
+> 		$.TRANS_count++
+4065a4053,4078
+> 		p = canonic(c)
+> 		$.TRANS_count--
+> 		# C will make it transpose all channels
+> 		if ( p == 0 )
+> 			$.TRANS_all = 1
+> 		else
+> 			$.TRANS_val = p
+> 		if ( $.TRANS_count > 0 )
+> 			return()
+> 		if ( $.TRANS_val >= 0 && $.TRANS_val <=6 )
+> 			tr = $.TRANS_val
+> 		else 
+> 			tr = $.TRANS_val - 12
+> 		if ( tr == 0 )
+> 			tr = 999
+> 		if ( $.go_mode ) {
+> 			$.trans_pending = tr
+> 			if($.debug)print("trans_pending = ",tr)
+> 		} else {
+> 			dt = nw - $.TRANS_down_tm1
+> 			if ( dt < milliclicks(1000) )
+> 				allchans = 1
+> 			else
+> 				allchans = 0
+> 			$.do_trans(tr,$.TRANS_all)
+> 		}
+4228a4242
+> # print("CONTROL pitch=",c.pitch)
+4284c4298
+< 					print("There's nothing in channel ",ch)
+---
+> 					print("B There's nothing in channel ",ch)
+4478c4492
+< 				print("There's nothing in channel ",ch)
+---
+> 				print("A There's nothing in channel ",ch)

@@ -1,0 +1,71 @@
+71a72,75
+> 	if ( defined(Notranspose) )
+> 		$.notranspose = Notranspose
+> 	else
+> 		$.notranspose = []
+829,830d832
+< 	$.UNDO_down = 0
+< 	$.UNDO_done = 0
+1681a1684,1689
+> 	if ( defined(Clockport) ) {
+> 		p = $.clockphrase
+> 		p.port = Clockport
+> 		$.clockphrase = p
+> 	}
+> 	print("clockphrase=",$.clockphrase)
+1827c1835
+< 		if ( lc == 10 )
+---
+> 		if ( lc in $.notranspose ) {
+1828a1837
+> 		}
+2648,2660d2656
+< 	if ( $.debug && keydown ) print("got_UNDO")
+< 	if ( $.UNDO_down && ! $.UNDO_done && !keydown ) {
+< 		print("Got UNDO, doing it")
+< 		if ( $.loop_finished[$.currloop] == 0 ) {
+< 			$.loop_finish($.currloop)
+< 		}
+< 		$.pop_undo()
+< 	}
+< 	$.UNDO_down = keydown
+< 	if ( $.UNDO_down )
+< 		$.UNDO_done = 0
+< 	return()
+< 
+2825a2822
+> 	$.send_notify("loopchange")
+3124d3120
+< 				$.send_notify("loopchange")
+3152,3156d3147
+< 		if ( $.UNDO_down ) {
+< 			$.got_reset()
+< 			$.UNDO_done = 1
+< 			return() 
+< 		}
+3266,3275d3256
+< 	if ( $.UNDO_down ) {
+< 		newc = canonic(c)
+< 		if ( newc >= 0 && newc < 10 ) {
+< 			ch = 1 + newc
+< 			print("Clearing channel ",ch)
+< 			$.clearchan(ch)
+< 			$.UNDO_done = 1
+< 		}
+< 		return()
+< 	}
+3446,3459d3426
+< method clearchan(ch) {
+< 	for ( lp=1; lp<=$.nloops; lp++ ) {
+< 		if ( $.loop_chan[lp] != ch )
+< 			continue
+< 		if ( lp != 1 ) {
+< 			$.rmloop(lp)
+< 			lp--
+< 		} else {
+< 			print("First loop is not being cleared!")
+< 		}
+< 	}
+< 	$.send_notify("loopchange")
+< }
+< 

@@ -1,0 +1,605 @@
+class chordselection {
+      method init { Chordselectionobject = $
+                  $.w = new window()
+                  $.inherit($.w)
+                  
+                  Nchords=9
+                  Ninversions=4 
+                  Nscales= 11
+                  Nintervals=13 
+                  Nplayorders=4
+                  $.currentlyselecting = ""
+                  
+                  Currentlyselectingn=0
+                  
+    				
+                  $.Selectedchordsarray = []
+                  for (i=0;i<16;i=i+1) {
+                  	$.Selectedchordsarray[i] = []
+                  	for (j=0;j<Ninversions+1;j=j+1)$.Selectedchordsarray[i][j] = 0
+                  	$.Selectedchordsarray[i][1] = 1
+                  }
+                  Selectedchordsarray=$.Selectedchordsarray
+                  Selectedchord=0
+                                    
+                  $.Selectedscalesarray = []
+                  for (i=0;i<16;i=i+1) $.Selectedscalesarray[i] = 0
+                  Selectedscalesarray=$.Selectedscalesarray
+                  
+                  $.Selectedintervalsarray = []
+                  for (i=0;i<16;i=i+1) $.Selectedintervalsarray[i] = 0
+                  Selectedintervalsarray=$.Selectedintervalsarray
+                  
+                  $.Selectedplayordersarray = []
+                  for (j=0;j<Nasktypes;j++) {
+                  	$.Selectedplayordersarray[j]=[]
+                  	for (i=0;i<Nplayorders;i=i+1) $.Selectedplayordersarray[j][i] = 0 
+                	}
+                  Selectedplayordersarray=$.Selectedplayordersarray
+                  $.chordnames = [0="Major",1="Minor",2="Dim",3="Aug",4="Dom7",5="Min7",6="Maj7",7="Dim7",8="HalfDim",9="-",10="-",11="-",12="-",13="-",14="-",15="-"]
+                  
+                  $.chordstext = new ktoggle("Chords",$,"Chordstext")
+                  $.chordstext.set(0)
+                  $.selectedchordtext = new ktext("(Major)")
+                	$.addchild($.chordstext) 
+                	$.addchild($.selectedchordtext) 
+                  $.c1 = new ktoggle("Major",$,"Major")
+                  $.c2 = new ktoggle("Minor",$,"Minor")
+                  $.c3 = new ktoggle("Dim",$,"Dim")
+                  $.c4 = new ktoggle("Aug",$,"Aug")
+                  $.c5 = new ktoggle("Dom7",$,"Dom7")
+                  $.c6 = new ktoggle("Min7",$,"Min7")     
+                  $.c7 = new ktoggle("Maj7",$,"Maj7")
+                  $.c8 = new ktoggle("Dim7",$,"Dim7")
+                  $.c9 = new ktoggle("HalfDim",$,"HalfDim")
+                  $.c10 = new ktoggle("-",$,"C10")
+                  $.c11 = new ktoggle("-",$,"C11")
+                  $.c12 = new ktoggle("-",$,"C12")
+                  $.c13 = new ktoggle("-",$,"C13")
+                  $.c14 = new ktoggle("-",$,"C14")
+                  $.c15 = new ktoggle("-",$,"C15")
+                  $.c16 = new ktoggle("-",$,"C16")                  
+                  $.addchild($.c1)
+                  $.addchild($.c2)
+                  $.addchild($.c3)
+                  $.addchild($.c4)
+                  $.addchild($.c5)
+                  $.addchild($.c6)
+                  $.addchild($.c7)
+                  $.addchild($.c8)
+                  $.addchild($.c9)
+                  $.addchild($.c10)
+                  $.addchild($.c11)
+                  $.addchild($.c12)
+                  $.addchild($.c13)
+                  $.addchild($.c14)
+                  $.addchild($.c15)
+                  $.addchild($.c16)
+                  
+                  
+                  $.scaleintervaltoggle = new ktoggle("(click for intervals)",$,"Scaleintervaltoggle")
+                  $.scaleintervaltext = new ktoggle("Scales",$,"Scaleintervaltext")
+                  Scalestoggle=1
+                	$.addchild($.scaleintervaltoggle) 
+                	$.addchild($.scaleintervaltext) 
+                	$.s1 = new ktoggle("Ionian",$,"Ionian")
+                  $.s2 = new ktoggle("Dorian",$,"Dorian")
+                  $.s3 = new ktoggle("Phrygian",$,"Phrygian")
+                  $.s4 = new ktoggle("Lydian",$,"Lydian")
+                  $.s5 = new ktoggle("Myxolyd.",$,"Myxolyd")
+                  $.s6 = new ktoggle("Aeolian",$,"Aeolian")     
+                  $.s7 = new ktoggle("Locrian",$,"Locrian")
+                  $.s8 = new ktoggle("Minor asc.",$,"Minorasc")
+                  $.s9 = new ktoggle("Harm. minor",$,"Harmminor")
+                  $.s10 = new ktoggle("Blues",$,"Blues")
+                  $.s11 = new ktoggle("Pentatonic",$,"Pentatonic")
+                  $.s12 = new ktoggle("-",$,"s12scaleinterval")
+                  $.s13 = new ktoggle("-",$,"s13scaleinterval")
+                  $.s14 = new ktoggle("-",$,"s14scaleinterval")
+                  $.s15 = new ktoggle("-",$,"s15scaleinterval")
+                  $.s16 = new ktoggle("-",$,"s16scaleinterval")   
+                  $.addchild($.s1)
+                  $.addchild($.s2)
+                  $.addchild($.s3)
+                  $.addchild($.s4)
+                  $.addchild($.s5)
+                  $.addchild($.s6)
+                  $.addchild($.s7)
+                  $.addchild($.s8)
+                  $.addchild($.s9)
+                  $.addchild($.s10)
+                  $.addchild($.s11)
+                  $.addchild($.s12)
+                  $.addchild($.s13)
+                  $.addchild($.s14)
+                  $.addchild($.s15)
+                  $.addchild($.s16) 
+                  
+                  $.locktoggle = new ktoggle("Lock",$,"togglelock")
+                	$.addchild($.locktoggle) 
+                	Lockedchords = 0
+                	
+                	$.i1 = new ktoggle("Root",$,"rootpos")
+                  $.i2 = new ktoggle("1st inv",$,"firstinv")
+                  $.i3 = new ktoggle("2nd inv",$,"secondinv")
+                  $.i4 = new ktoggle("3rd inv",$,"thirdinv")
+                  $.addchild($.i1)
+                  $.addchild($.i2)
+                  $.addchild($.i3)
+                  $.addchild($.i4)
+                  $.i1.set(1)
+                  
+                  
+                  $.p1 = new ktoggle("Asc.",$,"asc")
+                  $.p2 = new ktoggle("Desc.",$,"desc")
+                  $.p3 = new ktoggle("Harm.",$,"harm")
+                  $.p4 = new ktoggle("Random",$,"random")
+                  $.addchild($.p1)
+                  $.addchild($.p2)
+                  $.addchild($.p3)
+                  $.addchild($.p4)
+                  
+                	 
+
+      }
+      method redraw {
+                $.w.redraw()
+                methodbroadcast()
+      }
+      method resize (sz) {
+                if ( nargs() > 0 )
+                        $.w.resize(sz)
+                margin=3
+                $.t = $.ymin()
+			        	$.b = $.ymax()
+			
+			        	$.l = $.xmin()
+			        	$.r = $.xmax()
+			        	
+			        	ty = $.textheight() + 4
+			        	tx = $.textwidth()
+			          dy = ($.b-$.t-ty*2)/8
+			          dx = ($.r-$.l)/6
+			          
+			          
+			        	$.y1 = $.t
+			        	$.y2 = $.y1 + ty
+			        	$.y3 = $.y2 + dy
+								$.y4 = $.y3 + dy
+								$.y5 = $.y4 + dy	
+								
+								$.y6 = $.y5 + dy
+								$.y7 = $.y6 + ty	
+								$.y8 = $.y7 + dy	
+								$.y9 = $.y8 + dy			          
+								$.y10 = $.y9 + dy	
+								
+								$.x1 = $.l
+								$.x2 = $.x1 + dx
+								$.x3 = $.x2 + dx
+								$.x4 = $.x3 + dx
+								$.x5 = $.x4 + dx
+								$.x6 = $.x5 + dx
+								
+								$.pdy = ($.b-$.t-margin*3)/4
+								$.p1.resize(xy($.x1,$.y1,$.x2-margin,$.y1+$.pdy-margin))
+								$.p2.resize(xy($.x1,$.y1+$.pdy,$.x2-margin,$.y1+2*$.pdy-margin))
+								$.p3.resize(xy($.x1,$.y1+2*$.pdy,$.x2-margin,$.y1+3*$.pdy-margin))
+								$.p4.resize(xy($.x1,$.y1+3*$.pdy,$.x2-margin,$.b))
+							
+                $.chordstext.resize(xy($.x2,$.y1,$.x6+10,$.y2))
+                
+                $.selectedchordtext.resize(xy($.x6+10,$.y1,$.r,$.y2))
+                
+                $.i1.resize(xy($.x6+10,$.y2,$.r,$.y3-margin))
+                $.i2.resize(xy($.x6+10,$.y3,$.r,$.y4-margin))
+                $.i3.resize(xy($.x6+10,$.y4,$.r,$.y5-margin))
+                $.i4.resize(xy($.x6+10,$.y5,$.r,$.y6-margin)) 
+                
+                $.c1.resize(xy($.x2,$.y2,$.x3-margin,$.y3-margin))
+                $.c2.resize(xy($.x3,$.y2,$.x4-margin,$.y3-margin))
+                $.c3.resize(xy($.x4,$.y2,$.x5-margin,$.y3-margin))
+                $.c4.resize(xy($.x5,$.y2,$.x6-margin,$.y3-margin))
+                
+                
+                $.c5.resize(xy($.x2,$.y3,$.x3-margin,$.y4-margin))
+                $.c6.resize(xy($.x3,$.y3,$.x4-margin,$.y4-margin))
+                $.c7.resize(xy($.x4,$.y3,$.x5-margin,$.y4-margin))
+                $.c8.resize(xy($.x5,$.y3,$.x6-margin,$.y4-margin))
+                
+                
+                $.c9.resize(xy($.x2,$.y4,$.x3-margin,$.y5-margin))
+                $.c10.resize(xy($.x3,$.y4,$.x4-margin,$.y5-margin))
+                $.c11.resize(xy($.x4,$.y4,$.x5-margin,$.y5-margin))
+                $.c12.resize(xy($.x5,$.y4,$.x6-margin,$.y5-margin))
+                
+                
+                $.c13.resize(xy($.x2,$.y5,$.x3-margin,$.y6-margin))
+                $.c14.resize(xy($.x3,$.y5,$.x4-margin,$.y6-margin))
+                $.c15.resize(xy($.x4,$.y5,$.x5-margin,$.y6-margin))
+                $.locktoggle.resize(xy($.x5+4,$.y5,$.x6-margin-4,$.y6-margin))
+                
+                
+                #scales
+                $.x1 = $.l
+								$.x2 = $.x1 + dx
+								dx = ($.r-$.x2)/4
+								$.x3 = $.x2 + dx
+								$.x4 = $.x3 + dx
+								$.x5 = $.x4 + dx
+								
+                $.scaleintervaltext.resize(xy($.x2,$.y6,$.r-22*tx,$.y7))
+                $.scaleintervaltoggle.resize(xy($.r-22*tx,$.y6,$.r,$.y7))
+                $.s1.resize(xy($.x2,$.y7,$.x3-margin,$.y8-margin))
+                $.s2.resize(xy($.x3,$.y7,$.x4-margin,$.y8-margin))
+                $.s3.resize(xy($.x4,$.y7,$.x5-margin,$.y8-margin))
+                $.s4.resize(xy($.x5,$.y7,$.r-margin,$.y8-margin))
+                
+                
+                $.s5.resize(xy($.x2,$.y8,$.x3-margin,$.y9-margin))
+                $.s6.resize(xy($.x3,$.y8,$.x4-margin,$.y9-margin))
+                $.s7.resize(xy($.x4,$.y8,$.x5-margin,$.y9-margin))
+                $.s8.resize(xy($.x5,$.y8,$.r-margin,$.y9-margin))
+                
+                
+                $.s9.resize(xy($.x2,$.y9,$.x3-margin,$.y10-margin))
+                $.s10.resize(xy($.x3,$.y9,$.x4-margin,$.y10-margin))
+                $.s11.resize(xy($.x4,$.y9,$.x5-margin,$.y10-margin))
+                $.s12.resize(xy($.x5,$.y9,$.r-margin,$.y10-margin))
+                 
+                
+                $.s13.resize(xy($.x2,$.y10,$.x3-margin,$.b-margin))
+                $.s14.resize(xy($.x3,$.y10,$.x4-margin,$.b-margin))
+                $.s15.resize(xy($.x4,$.y10,$.x5-margin,$.b-margin))
+                $.s16.resize(xy($.x5,$.y10,$.r-margin,$.b-margin))
+                
+        }
+        #chords
+        method Major { 	$.Setchordsarray(0,$.c1) }
+				method Minor { $.Setchordsarray(1,$.c2) }
+				method Dim {   $.Setchordsarray(2,$.c3) }
+				method Aug {   $.Setchordsarray(3,$.c4) }
+				method Dom7 {  $.Setchordsarray(4,$.c5) }
+				method Min7 {  $.Setchordsarray(5,$.c6) }
+				method Maj7 {  $.Setchordsarray(6,$.c7) }
+				method Dim7 {  $.Setchordsarray(7,$.c8) }
+				method HalfDim {$.Setchordsarray(8,$.c9) }
+				method C10 {$.Setchordtogglesblank(9,$.c10)} 
+				method C11 {$.Setchordtogglesblank(9,$.c11)}
+				method C12 {$.Setchordtogglesblank(9,$.c12)}
+				method C13 {$.Setchordtogglesblank(9,$.c13)}
+				method C14 {$.Setchordtogglesblank(9,$.c14)}
+				method C15 {$.Setchordtogglesblank(9,$.c15)}
+				method C16 {$.Setchordtogglesblank(9,$.c16)}
+				method Setchordsarray (sc,obj){
+												$.adjustplayordertoggles("chords")
+												Selectedchord=sc
+												$.selectedchordtext.set("("+obj.gettext()+")")
+												$.selectedchordtext.redraw()
+        								if (!Lockedchords) Selectedchordsarray[Selectedchord][0]= 1 - Selectedchordsarray[Selectedchord][0] 
+        							 	else	{ obj.set(Selectedchordsarray[Selectedchord][0]) obj.redraw() }
+        							 	$.i1.set(Selectedchordsarray[Selectedchord][1]) $.i1.redraw()
+        								$.i2.set(Selectedchordsarray[Selectedchord][2]) $.i2.redraw()
+        								$.i3.set(Selectedchordsarray[Selectedchord][3]) $.i3.redraw()
+        								$.i4.set(Selectedchordsarray[Selectedchord][4]) $.i4.redraw()
+				}
+				method Setchordtogglesblank (sc,obj){
+												obj.set(0) obj.redraw() 
+        							 	$.i1.set(0) $.i1.redraw()
+        								$.i2.set(0) $.i2.redraw()
+        								$.i3.set(0) $.i3.redraw()
+        								$.i4.set(0) $.i4.redraw()
+				}
+				#scales
+				method Ionian { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[0]= 1 - Selectedscalesarray[0] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[0]= 1 - Selectedintervalsarray[0]}
+											}								
+				method Dorian { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[1]= 1 - Selectedscalesarray[1] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[1]= 1 - Selectedintervalsarray[1]}
+											}
+				method Phrygian { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[2]= 1 - Selectedscalesarray[2] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[2]= 1 - Selectedintervalsarray[2]}
+											}
+				method Lydian { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[3]= 1 - Selectedscalesarray[3] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[3]= 1 - Selectedintervalsarray[3]}
+											}
+				method Myxolyd { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[4]= 1 - Selectedscalesarray[4] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[4]= 1 - Selectedintervalsarray[4]}
+											}
+				method Aeolian { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[5]= 1 - Selectedscalesarray[5] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[5]= 1 - Selectedintervalsarray[5]}
+											}
+				method Locrian { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[6]= 1 - Selectedscalesarray[6] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[6]= 1 - Selectedintervalsarray[6]}
+											}
+				method Minorasc { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[7]= 1 - Selectedscalesarray[7] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[7]= 1 - Selectedintervalsarray[7]}
+											}
+				method Harmminor { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[8]= 1 - Selectedscalesarray[8] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[8]= 1 - Selectedintervalsarray[8]}
+											}
+				method Blues { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[9]= 1 - Selectedscalesarray[9] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[9]= 1 - Selectedintervalsarray[9]}
+											}
+				method Pentatonic { 	if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[10]= 1 - Selectedscalesarray[10] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[10]= 1 - Selectedintervalsarray[10]}
+											}
+				method s12scaleinterval { 	$.clearunusedscaletoggles()
+					if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[11]= 1 - Selectedscalesarray[11] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[11]= 1 - Selectedintervalsarray[11]}
+											}
+				method s13scaleinterval { 	$.clearunusedscaletoggles()
+					if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[12]= 1 - Selectedscalesarray[12] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[12]= 1 - Selectedintervalsarray[12]}
+											}
+				method s14scaleinterval { 	$.clearunusedscaletoggles()
+					if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[13]= 1 - Selectedscalesarray[13] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[13]= 1 - Selectedintervalsarray[13]}
+											}
+				method s15scaleinterval { 	$.clearunusedscaletoggles()
+					if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[14]= 1 - Selectedscalesarray[14] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[14]= 1 - Selectedintervalsarray[14]}
+											}
+				method s16scaleinterval { 	$.clearunusedscaletoggles()
+					if (Scalestoggle) { $.adjustplayordertoggles("scales") Selectedscalesarray[15]= 1 - Selectedscalesarray[15] }
+													else							{ $.adjustplayordertoggles("intervals") Selectedintervalsarray[15]= 1 - Selectedintervalsarray[15]}
+											}
+				method clearunusedscaletoggles {							
+							if(Scalestoggle) {										
+										$.s12.set(0) $.s12.redraw()
+										$.s13.set(0) $.s13.redraw()
+										$.s14.set(0) $.s14.redraw()
+										$.s15.set(0) $.s15.redraw()
+										$.s16.set(0) $.s16.redraw()
+							}
+							else {							
+										$.s14.set(0) $.s14.redraw()
+										$.s15.set(0) $.s15.redraw()
+										$.s16.set(0) $.s16.redraw()	
+							}	
+				}		
+				#inversions
+				method rootpos {  $.setinversion(0,$.i1)}
+				method firstinv { $.setinversion(1,$.i2) }
+				method secondinv {$.setinversion(2,$.i3)  }
+				method thirdinv { $.setinversion(3,$.i4) }
+				method setinversion(si,obj)
+					{ $.adjustplayordertoggles("chords") 
+					if (Selectedchordsarray[Selectedchord][si+1]) {
+						anyotheron=0
+						for (i=1;i<Ninversions+1;i=i+1) 
+							if (Selectedchordsarray[Selectedchord][i]) 	anyotheron=anyotheron+1 
+					if (anyotheron>1) 	Selectedchordsarray[Selectedchord][si+1]= 0
+						else { obj.set(1) obj.redraw() }
+					}
+					else		Selectedchordsarray[Selectedchord][si+1]= 1
+					
+				}
+				
+				
+				#playorder
+				method asc {  
+					if ($.currentlyselecting=="riffs") { $.p1.set(0) $.p1.redraw() return() }
+					Selectedplayordersarray[Currentlyselectingn][0]= 1 - Selectedplayordersarray[Currentlyselectingn][0]}
+				method desc { 
+					if ($.currentlyselecting=="riffs") { $.p2.set(0) $.p2.redraw() return() }
+					Selectedplayordersarray[Currentlyselectingn][1]= 1 - Selectedplayordersarray[Currentlyselectingn][1] }
+				method harm { 
+					if ($.currentlyselecting=="riffs") { $.p3.set(0) $.p3.redraw() return() }
+					if ($.currentlyselecting=="scales") { $.p3.set(0) $.p3.redraw() return() }
+					Selectedplayordersarray[Currentlyselectingn][2]= 1 - Selectedplayordersarray[Currentlyselectingn][2] }
+				method random {
+					if ($.currentlyselecting=="riffs") { $.p4.set(0) $.p4.redraw() return() }
+					if ($.currentlyselecting=="intervals") { $.p4.set(0) $.p4.redraw() return() }
+					Selectedplayordersarray[Currentlyselectingn][3]= 1 - Selectedplayordersarray[Currentlyselectingn][3]  }
+				
+				method togglelock {   $.adjustplayordertoggles("chords") Lockedchords = 1 - Lockedchords  }
+				
+				method Scaleintervaltext {
+								$.scaleintervaltext.set(0) $.scaleintervaltext.redraw()
+								if(Scalestoggle) {  $.adjustplayordertoggles("scales") }
+								else 	{  $.adjustplayordertoggles("intervals") }
+				}
+				
+				method Scaleintervaltoggle { Scalestoggle = 1 - Scalestoggle
+							if(Scalestoggle) {  
+										
+										$.adjustplayordertoggles("scales") 
+										$.scaleintervaltoggle.settext("(click for intervals)")
+										#$.scaleintervaltext.settext("-> Scales <-") $.scaleintervaltext.redraw()
+										$.s1.settext("Ionian") $.s1.set(Selectedscalesarray[0]) $.s1.redraw()
+										$.s2.settext("Dorian") $.s2.set(Selectedscalesarray[1]) $.s2.redraw()
+										$.s3.settext("Phrygian") $.s3.set(Selectedscalesarray[2]) $.s3.redraw()
+										$.s4.settext("Lydian") $.s4.set(Selectedscalesarray[3]) $.s4.redraw()
+										$.s5.settext("Myxolyd") $.s5.set(Selectedscalesarray[4]) $.s5.redraw()
+										$.s6.settext("Aeolian") $.s6.set(Selectedscalesarray[5]) $.s6.redraw()
+										$.s7.settext("Locrian") $.s7.set(Selectedscalesarray[6]) $.s7.redraw()
+										$.s8.settext("Minor asc.") $.s8.set(Selectedscalesarray[7]) $.s8.redraw()
+										$.s9.settext("Harm. minor") $.s9.set(Selectedscalesarray[8]) $.s9.redraw()
+										$.s10.settext("Blues") $.s10.set(Selectedscalesarray[9]) $.s10.redraw()
+										$.s11.settext("Pentatonic") $.s11.set(Selectedscalesarray[10]) $.s11.redraw()
+										$.s12.settext("-") $.s12.set(0) $.s12.redraw()
+										$.s13.settext("-") $.s13.set(0) $.s13.redraw()
+										$.s14.settext("-") $.s14.set(0) $.s14.redraw()
+										$.s15.settext("-") $.s15.set(0) $.s15.redraw()
+										$.s16.settext("-") $.s16.set(0) $.s16.redraw()
+							}
+							else {  
+									
+										$.adjustplayordertoggles("intervals") 
+										$.scaleintervaltoggle.settext("(click for scales)")
+										#$.scaleintervaltext.settext("-> Intervals -") $.scaleintervaltext.redraw()
+										$.s1.settext("Unison") $.s1.set(Selectedintervalsarray[0]) $.s1.redraw()
+										$.s2.settext("Minor 2nd") $.s2.set(Selectedintervalsarray[1]) $.s2.redraw()
+										$.s3.settext("Major 2nd") $.s3.set(Selectedintervalsarray[2]) $.s3.redraw()
+										$.s4.settext("Minor 3rd") $.s4.set(Selectedintervalsarray[3]) $.s4.redraw()
+										$.s5.settext("Major 3rd") $.s5.set(Selectedintervalsarray[4]) $.s5.redraw()
+										$.s6.settext("Perfect 4th") $.s6.set(Selectedintervalsarray[5]) $.s6.redraw()
+										$.s7.settext("Dim. 5th") $.s7.set(Selectedintervalsarray[6]) $.s7.redraw()
+										$.s8.settext("Perfect 5th") $.s8.set(Selectedintervalsarray[7]) $.s8.redraw()
+										$.s9.settext("Minor 6th") $.s9.set(Selectedintervalsarray[8]) $.s9.redraw()
+										$.s10.settext("Major 6th") $.s10.set(Selectedintervalsarray[9]) $.s10.redraw()
+										$.s11.settext("Minor 7th") $.s11.set(Selectedintervalsarray[10]) $.s11.redraw()
+										$.s12.settext("Major 7th") $.s12.set(Selectedintervalsarray[11]) $.s12.redraw()
+										$.s13.settext("Perfect 8ve") $.s13.set(Selectedintervalsarray[12]) $.s13.redraw()
+										$.s14.settext("-") $.s14.set(0) $.s14.redraw()
+										$.s15.settext("-") $.s15.set(0) $.s15.redraw()
+										$.s16.settext("-") $.s16.set(0) $.s16.redraw()	
+							}			
+						  $.scaleintervaltoggle.set(0) $.scaleintervaltoggle.redraw() 
+					}
+				
+				#empty
+				method empty { }
+				
+				method chordsetstate() {
+					if(Currentlyselectingn==0) { $.chordstext.settext("-> Chords <-") $.chordstext.redraw() }
+					$.selectedchordtext.set("("+$.chordnames[Selectedchord]+")")
+					$.locktoggle.set(Lockedchords)
+					
+					#print(Selectedchord,$.chordnames[Selectedchord])
+					#print("Hallo1")
+					$.c1.set(Selectedchordsarray[0][0])
+          $.c2.set(Selectedchordsarray[1][0])
+          $.c3.set(Selectedchordsarray[2][0])
+          $.c4.set(Selectedchordsarray[3][0])
+          $.c5.set(Selectedchordsarray[4][0])
+          $.c6.set(Selectedchordsarray[5][0])
+          $.c7.set(Selectedchordsarray[6][0])
+          $.c8.set(Selectedchordsarray[7][0])
+          $.c9.set(Selectedchordsarray[8][0])
+          $.c10.set(Selectedchordsarray[9][0])
+          $.c11.set(Selectedchordsarray[10][0])
+          $.c12.set(Selectedchordsarray[11][0])
+          $.c13.set(Selectedchordsarray[12][0])
+          $.c14.set(Selectedchordsarray[13][0])
+          $.c15.set(Selectedchordsarray[14][0])
+          $.c16.set(Selectedchordsarray[15][0])
+          #print("Hallo2")
+          $.i1.set(Selectedchordsarray[Selectedchord][1])
+          $.i2.set(Selectedchordsarray[Selectedchord][2])
+          $.i3.set(Selectedchordsarray[Selectedchord][3])
+          $.i4.set(Selectedchordsarray[Selectedchord][4])         
+          print("Chordsetstate",Currentlyselectingn)
+          $.p1.set(Selectedplayordersarray[Currentlyselectingn][0])
+          $.p2.set(Selectedplayordersarray[Currentlyselectingn][1])
+          $.p3.set(Selectedplayordersarray[Currentlyselectingn][2])
+          $.p4.set(Selectedplayordersarray[Currentlyselectingn][3])
+          
+          $.redraw()
+          
+          if(Scalestoggle) {
+								$.scaleintervaltoggle.settext("(click for intervals)") $.scaleintervaltoggle.redraw()
+								if(Currentlyselectingn==1) { $.chordstext.settext("-> Scales <-")  }
+								else $.scaleintervaltext.settext("Scales") 
+								$.scaleintervaltext.redraw()
+								$.s1.settext("Ionian") $.s1.set(Selectedscalesarray[0]) $.s1.redraw()
+								$.s2.settext("Dorian") $.s2.set(Selectedscalesarray[1]) $.s2.redraw()
+								$.s3.settext("Phrygian") $.s3.set(Selectedscalesarray[2]) $.s3.redraw()
+								$.s4.settext("Lydian") $.s4.set(Selectedscalesarray[3]) $.s4.redraw()
+								$.s5.settext("Myxolyd") $.s5.set(Selectedscalesarray[4]) $.s5.redraw()
+								$.s6.settext("Aeolian") $.s6.set(Selectedscalesarray[5]) $.s6.redraw()
+								$.s7.settext("Locrian") $.s7.set(Selectedscalesarray[6]) $.s7.redraw()
+								$.s8.settext("Minor asc.") $.s8.set(Selectedscalesarray[7]) $.s8.redraw()
+								$.s9.settext("Harm. minor") $.s9.set(Selectedscalesarray[8]) $.s9.redraw()
+								$.s10.settext("Blues") $.s10.set(Selectedscalesarray[9]) $.s10.redraw()
+								$.s11.settext("Pentatonic") $.s11.set(Selectedscalesarray[10]) $.s11.redraw()
+								$.s12.settext("-") $.s12.set(0) $.s12.redraw()
+								$.s13.settext("-") $.s13.set(0) $.s13.redraw()
+								$.s14.settext("-") $.s14.set(0) $.s14.redraw()
+								$.s15.settext("-") $.s15.set(0) $.s15.redraw()
+								$.s16.settext("-") $.s16.set(0) $.s16.redraw()
+							}
+							else {
+								$.scaleintervaltoggle.settext("Intervals  (click for scales)") $.scaleintervaltoggle.redraw()
+								if(Currentlyselectingn==2) { $.chordstext.settext("-> Intervals <-")  }
+								else $.scaleintervaltext.settext("Intervals") $.scaleintervaltext.redraw()
+								$.s1.settext("Unison") $.s1.set(Selectedintervalsarray[0]) $.s1.redraw()
+								$.s2.settext("Minor 2nd") $.s2.set(Selectedintervalsarray[1]) $.s2.redraw()
+								$.s3.settext("Major 2nd") $.s3.set(Selectedintervalsarray[2]) $.s3.redraw()
+								$.s4.settext("Minor 3rd") $.s4.set(Selectedintervalsarray[3]) $.s4.redraw()
+								$.s5.settext("Major 3rd") $.s5.set(Selectedintervalsarray[4]) $.s5.redraw()
+								$.s6.settext("Perfect 4th") $.s6.set(Selectedintervalsarray[5]) $.s6.redraw()
+								$.s7.settext("Dim. 5th") $.s7.set(Selectedintervalsarray[6]) $.s7.redraw()
+								$.s8.settext("Perfect 5th") $.s8.set(Selectedintervalsarray[7]) $.s8.redraw()
+								$.s9.settext("Minor 6th") $.s9.set(Selectedintervalsarray[8]) $.s9.redraw()
+								$.s10.settext("Major 6th") $.s10.set(Selectedintervalsarray[9]) $.s10.redraw()
+								$.s11.settext("Minor 7th") $.s11.set(Selectedintervalsarray[10]) $.s11.redraw()
+								$.s12.settext("Major 7th") $.s12.set(Selectedintervalsarray[11]) $.s12.redraw()
+								$.s13.settext("Perfect 8ve") $.s13.set(Selectedintervalsarray[12]) $.s13.redraw()
+								$.s14.settext("-") $.s14.set(0) $.s14.redraw()
+								$.s15.settext("-") $.s15.set(0) $.s15.redraw()
+								$.s16.settext("-") $.s16.set(0) $.s16.redraw()	
+						}
+					 
+    		}
+    		method adjustplayordertoggles(t) {
+    			#print("in adjust",t)
+    			#if ($.currentlyselecting==t) return()
+    			
+    			$.currentlyselecting=t
+    			if ($.currentlyselecting=="chords") {
+    				$.chordstext.settext("-> Chords <-") $.chordstext.redraw()
+    				if(Scalestoggle)  $.scaleintervaltext.settext("Scales") 
+    													else $.scaleintervaltext.settext("Intervals")
+    				$.scaleintervaltext.redraw()
+    				Riffselectionobject.unselectriffstext()
+    				Currentlyselectingn=0
+    				$.p1.settext("Asc.") $.p1.set(Selectedplayordersarray[Currentlyselectingn][0]) $.p1.redraw()
+    				$.p2.settext("Desc.") $.p2.set(Selectedplayordersarray[Currentlyselectingn][1]) $.p2.redraw()
+    				$.p3.settext("Harm.") $.p3.set(Selectedplayordersarray[Currentlyselectingn][2]) $.p3.redraw()
+    				$.p4.settext("Random") $.p4.set(Selectedplayordersarray[Currentlyselectingn][3]) $.p4.redraw()
+    				return()
+    			}
+    			if ($.currentlyselecting=="scales") {
+    				$.chordstext.settext("Chords") $.chordstext.redraw()
+    				if(Scalestoggle)  $.scaleintervaltext.settext("-> Scales <-") 
+    													else $.scaleintervaltext.settext("Intervals")
+    				$.scaleintervaltext.redraw()
+    				Riffselectionobject.unselectriffstext()
+    				Currentlyselectingn=1
+    				$.p1.settext("Asc.") $.p1.set(Selectedplayordersarray[Currentlyselectingn][0]) $.p1.redraw()
+    				$.p2.settext("Desc.") $.p2.set(Selectedplayordersarray[Currentlyselectingn][1]) $.p2.redraw()
+    				$.p3.settext("") $.p3.set(0) $.p3.redraw()
+    				$.p4.settext("Random") $.p4.set(Selectedplayordersarray[Currentlyselectingn][3]) $.p4.redraw()
+    				return()
+    			}
+    			if ($.currentlyselecting=="intervals") {
+    				$.chordstext.settext("Chords") $.chordstext.redraw()
+    				if(Scalestoggle)  $.scaleintervaltext.settext("-> Scales <-") 
+    													else $.scaleintervaltext.settext("-> Intervals <-")
+    				$.scaleintervaltext.redraw()
+    				Riffselectionobject.unselectriffstext()
+    				Currentlyselectingn=2
+    				#print("in adjust in intervals")
+    				$.p1.settext("Asc.") $.p1.set(Selectedplayordersarray[Currentlyselectingn][0]) $.p1.redraw()
+    				$.p2.settext("Desc.") $.p2.set(Selectedplayordersarray[Currentlyselectingn][1]) $.p2.redraw()
+    				$.p3.settext("Harm.") $.p3.set(Selectedplayordersarray[Currentlyselectingn][2]) $.p3.redraw()
+    				$.p4.settext("") $.p4.set(0) $.p4.redraw()
+    				return()
+    			}
+    			if ($.currentlyselecting=="riffs") {
+    				$.chordstext.settext("Chords") $.chordstext.redraw()
+    				if(Scalestoggle)  $.scaleintervaltext.settext("Scales") 
+    													else $.scaleintervaltext.settext("Intervals")
+    				$.scaleintervaltext.redraw()
+    				Currentlyselectingn=3
+    				#print("Hee???")
+    				$.p1.settext("") $.p1.set(0) $.p1.redraw()
+    				$.p2.settext("") $.p2.set(0) $.p2.redraw()
+    				$.p3.settext("") $.p3.set(0) $.p3.redraw()
+    				$.p4.settext("") $.p4.set(0) $.p4.redraw()
+    				return()
+    			}
+    		
+    		}
+    		
+    		method Chordstext { 	$.chordstext.set(0) $.chordstext.redraw() 
+    													Chordselectionobject.adjustplayordertoggles("chords")
+    					
+    	}
+    	
+    
+
+
+}

@@ -1,0 +1,195 @@
+34,35d33
+< 	if ( ! defined(Syncport) )
+< 		Syncport = -1
+45c43
+< 	print("The hoops are alive... (ctrl-. will quit)")
+---
+> 	print("The hoops are alive...")
+443,447c441,442
+< method realtime(p) {
+< 	if ( defined(Ergo) ) {
+< 		task Ergo.play(p,0)
+< 	}
+< 	return(realtime(p))
+---
+> method realtime(...) {
+> 	return(realtime(...))
+449,454c444,445
+< 
+< method realtime2(p,tm) {
+< 	if ( defined(Ergo) ) {
+< 		task Ergo.play2(p,tm,0)
+< 	}
+< 	return(realtime(p,tm))
+---
+> method realtime_echonotes(...) {
+> 	return(realtime(...))
+527a519,559
+> # method play_loop(tm) {
+> # print("PLAY_LOOP called")
+> # 	if ( $.verbose ) {
+> # 		print("playloop tm=",tm," $=",$)
+> # 	}
+> # 	leng = Tp["length"]
+> # 	for ( ch=1; ch<=$.chans; ch++ ) {
+> # 		p = $.loopphrase[ch]
+> # 
+> # 		t = Tp["tonality"]
+> # 		if ( t != 0 ) {
+> # 			p = scadjust(p,$.tonalscales[t])
+> # 		}
+> # 
+> # 		w = ''
+> # 		if ( ch in $.loopphrasewarp ) {
+> # 			w = $.loopphrasewarp[ch]
+> # 			if ( w != '' ) {
+> # 				p = w
+> # 			}
+> # 		}
+> # 		if ( $.loopfade > 0 ) {
+> # 			p.vol -= (5 * $.loopfade)
+> # 			p -= p{??.vol==0}
+> # 			$.loopphrase[ch] = p
+> # 		}
+> # 
+> # 		if ( p != '' && $.loopmute[ch] == 0 ) {
+> # 			if ( $.looprestep[ch] != 0 ) {
+> # 				p = step(p,$.quant)
+> # 			}
+> # 			# Don't requantize the warped stuff
+> # 			if ( w == '' && $.requant[ch] > 1 ) {
+> # 				p = quantize(p,$.requant[ch])
+> # 			}
+> # 			p = cut(p,CUT_TIME,0,leng)
+> # 			$.looptask[ch] = $.realtime_echonotes(p,tm)
+> # 		}
+> # 	}
+> # }
+> 
+810d841
+< 	$.EXTERN1_down = 0
+1658,1659c1689,1693
+< 	$.clockphrase = repeat('xf8,l4',24)
+< 	if ( defined(Clockport) ) {
+---
+> 	clock1 = 'xf8'
+> 	clock1.length = 16
+> 	print("CLOCK is ",clock1)
+> 	$.clockphrase = repeat(clock1,24)
+> 	if ( defined(Clockports) ) {
+1661,1662c1695,1711
+< 		p.port = Clockport
+< 		$.clockphrase = p
+---
+> 		p2 = 'xfa'
+> 		p3 = 'xfc'
+> 		r = ''
+> 		r2 = ''
+> 		r3 = ''
+> 		for ( prt in Clockports ) {
+> 			p.port = prt
+> 			p2.port = prt
+> 			p3.port = prt
+> 			r |= p
+> 			r2 |= p2
+> 			r3 |= p3
+> 		}
+> 		$.clockphrase = r
+> 		$.startphrase = r2
+> 		$.stopphrase = r3
+> 		# print("clockphrase=",$.clockphrase)
+1704d1752
+< 		$.control_EXTERN1 = HoopNotes["EXTERN1"]		#
+1718d1765
+< 		$.control_EXTERN1 = 9		# E
+1720d1766
+< 	print("control_EXTERN1=",$.control_EXTERN1)
+1741,1742d1786
+< 		if ( Syncport >= 0 && n.port == Syncport )
+< 			continue
+1899a1944,1946
+> 	print("PULSE_TASK START")
+> 	$.startwassent = 0
+> 	$.startshouldbesent = 0
+1976a2024,2030
+> 			if ( c == 1 && b == 0 ) {
+> 				if ( $.startwassent == 0 && $.startshouldbesent == 1 ) {
+> 					print("SENDING START")
+> 					realtime($.startphrase)
+> 					$.startwassent = 1
+> 				}
+> 			}
+1982,1983c2036,2037
+< 					# print("HEY!! CHAN=",c,"  PLAYING LOOP (b=",b,") ",p," Now=",Now," thispulse=",thispulse)
+< 					$.loop_tid[c] = $.realtime2(p,thispulse)
+---
+> 					# print("CHAN=",c,"  PLAYING LOOP (b=",b,") ",p," Now=",Now," thispulse=",thispulse)
+> 					$.loop_tid[c] = realtime(p,thispulse)
+2008c2062,2065
+< 			# print("PULSE IS CHANGING")
+---
+> 			print("PULSE IS CHANGING")
+> 			if ( c == 1 ) {
+> 				$.startshouldbesent = 1
+> 			}
+2133d2189
+< 		"E" = "got_EXTERN1",
+2460a2517
+> 	$.realtime($.stopphrase)
+2766,2767d2822
+< method got_EXTERN1(c,nw,keydown) { $.EXTERN1_down = keydown }
+< 
+3066c3121
+< 		$.realtime2($.loop_phrase[$.currloop][0],$.last_pulse_time)
+---
+> 		realtime($.loop_phrase[$.currloop][0],$.last_pulse_time)
+3070c3125
+< 		$.realtime2($.loop_phrase[$.currloop][0],$.last_pulse_time)
+---
+> 		realtime($.loop_phrase[$.currloop][0],$.last_pulse_time)
+3267,3274d3321
+< 	if ( $.EXTERN1_down ) {
+< 		newc = canonic(c)
+< 		if ( defined(Ergo) ) {
+< 			nt = makenote(1+newc,1b,64,16)
+< 			Ergo.play(nt,0)
+< 		}
+< 		return()
+< 	}
+3341c3388
+< 	$.realtime2(c,nw)
+---
+> 	realtime(c,nw)
+3576,3578d3622
+< 	if ( $.EXTERN1_down ) {
+< 		return()
+< 	}
+3586c3630
+< 	$.realtime2(c,nw)
+---
+> 	realtime(c,nw)
+3662c3706
+< 	$.realtime2(c,nw)
+---
+> 	realtime(c,nw)
+3670c3714
+< 	print("non note recording, armed = ",$.armed)
+---
+> 	# print("non note recording, armed = ",$.armed)
+3679c3723,3725
+< 	if ( beat in $.loop_phrase[$.currloop] ) {
+---
+> 	if ( ! ($.currloop in $.loop_phrase) )
+> 		return()
+> 	if ( (beat in $.loop_phrase[$.currloop]) ) {
+3703a3750
+> # print("INPUT c=",c," nw=",nw,"  Now=",Now,"  $.quant=",$.quant)
+3739a3787
+> # print("CONTROL pitch=",c.pitch)
+3789,3792d3836
+< 				} else if ( c.pitch == $.control_EXTERN1 ) {
+< 					$.got_EXTERN1(c,nw,keydown)
+< 					unlock($)
+< 					continue
+3900a3945
+> # print("c=",c," keydown=",keydown," ctrl=",ctrl)

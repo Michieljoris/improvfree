@@ -1,0 +1,48 @@
+class improvfree {
+    method init {	
+    	$.w = new window()
+  		$.inherit($.w)
+  		$.mycodewindow = new mycode()
+  		$.chordswindow= new chordselection()
+  		$.riffswindow = new riffselection()
+  		$.keyswindows = new keyselection()
+  		$.addchild($.chordswindow)
+  		$.addchild($.mycodewindow)
+  		$.addchild($.riffswindow)
+  		$.addchild($.keyswindows)
+  		
+  		$.mycodewindow.loaddata(Datafilesdir+"default.data")
+  	}
+	   method redraw {
+	        $.w.redraw()
+	        methodbroadcast()
+	   }
+	  method resize (sz) {
+                if ( nargs() > 0 )
+                      $.w.resize(sz) 	 
+                      
+    $.y0 = float($.ymin())        
+    $.y1 = float($.ymax() )     
+		            
+  	lines1=2.0
+    lines2=10.0
+    lines3=5.0
+    lines4=2.0
+    totallines=lines1 + lines2 + lines3 + lines4
+    $.ym1=  $.y0 + integer((lines1/totallines) * ($.y1-$.y0)  )
+    $.ym2=  $.ym1 + integer((lines2/totallines) * ($.y1-$.y0)	)
+    $.ym3=  $.ym2 + integer((lines3/totallines) * ($.y1-$.y0)	)
+    $.ym4=  $.ym3 + integer((lines4/totallines) * ($.y1-$.y0) )               
+     #print($.y0,$.ym1,$.ym2,$.ym3,$.ym4,$.y1)   
+     #print(float(lines1/totallines),lines1,totallines)   
+     #print((lines1/totallines),(lines2/totallines),(lines3/totallines),(lines4/totallines))              
+    $.x0 = $.xmin()     
+    $.x1 = $.xmax()  
+    $.mycodewindow.resize(xy($.x0,$.y0,$.x1,$.ym1)) 
+    $.chordswindow.resize(xy($.x0,$.ym1,$.x1,$.ym2))
+    $.riffswindow.resize(xy($.x0,$.ym2,$.x1,$.ym3))
+    $.keyswindows.resize(xy($.x0,$.ym3,$.x1,$.y1))
+      
+  }
+}  
+    

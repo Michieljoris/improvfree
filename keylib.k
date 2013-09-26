@@ -1,0 +1,9 @@
+#library riffselection.k riffselection
+#library mycode.k mycode
+#library mycode.k Runtimer
+#library mycode.k listentomidi
+#library mycode.k monitorresponse
+#library chordselection.k chordselection
+#library improvfree.k improvfree
+#library keyselection.k keyselection
+#library test.k test

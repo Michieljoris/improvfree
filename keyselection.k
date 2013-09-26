@@ -1,0 +1,254 @@
+class keyselection {
+      method init { Keyselectionobject = $
+      							
+                  $.w = new window()
+                  $.inherit($.w)
+                  Nkeys=12
+                  $.Selectedkeysarray = []
+                  for (i=0;i<Nkeys;i=i+1) $.Selectedkeysarray[i] = 1
+                  Selectedkeysarray=$.Selectedkeysarray
+                  
+                  $.Selectedoctavesarray = [0=0,1=0,2=0,3=1,4=1,5=0,6=0]
+                  
+                  
+                  Selectedoctavesarray=$.Selectedoctavesarray
+                  $.keystext = new ktext("Keys")
+                	$.addchild($.keystext) 
+                  $.t1 = new ktoggle("C",$,"t1toggle")
+                  $.t2 = new ktoggle("Db",$,"t2toggle")
+                  $.t3 = new ktoggle("D",$,"t3toggle")
+                  $.t4 = new ktoggle("Eb",$,"t4toggle")
+                  $.t5 = new ktoggle("E",$,"t5toggle")
+                  $.t6 = new ktoggle("F",$,"t6toggle")
+                  $.t7 = new ktoggle("Gb",$,"t7toggle")
+                  $.t8 = new ktoggle("G",$,"t8toggle")
+                  $.t9 = new ktoggle("Ab",$,"t9toggle")
+                  $.t10 = new ktoggle("A",$,"t10toggle")
+                  $.t11 = new ktoggle("Bb",$,"t11toggle")
+                  $.t12 = new ktoggle("B",$,"t12toggle")
+                  
+                  Noctaves=7
+                  $.octavestext = new ktext("Octaves")
+                	$.addchild($.octavestext) 
+                  $.t13 = new ktoggle("-3",$,"t13toggle")
+                  $.t14 = new ktoggle("-2",$,"t14toggle")
+                  $.t15 = new ktoggle("-1",$,"t15toggle")
+                  $.t16 = new ktoggle("0",$,"t16toggle")
+                  $.t17 = new ktoggle("1",$,"t17toggle")
+                  $.t18 = new ktoggle("2",$,"t18toggle")
+                  $.t19 = new ktoggle("3",$,"t19toggle")
+                  $.t20 = new ktoggle("?",$,"t20toggle")
+                
+                  $.addchild($.t1)
+                  $.addchild($.t2)
+                  $.addchild($.t3)
+                  $.addchild($.t4)
+                  $.addchild($.t5)
+                  $.addchild($.t6)
+                  $.addchild($.t7)
+                  $.addchild($.t8)
+                  $.addchild($.t9)
+                  $.addchild($.t10)
+                  $.addchild($.t11)
+                  $.addchild($.t12)
+                  $.addchild($.t13)
+                  $.addchild($.t14)
+                  $.addchild($.t15)
+                  $.addchild($.t16)
+                  $.addchild($.t17)
+                  $.addchild($.t18)
+                  $.addchild($.t19)
+                  $.addchild($.t20)
+                 	
+                 	$.t1.set(1)
+	                $.t2.set(1)
+	                $.t3.set(1)
+	                $.t4.set(1)
+	                $.t5.set(1)
+	                $.t6.set(1)
+	                $.t7.set(1)
+	                $.t8.set(1)
+	                $.t9.set(1)
+	                $.t10.set(1)
+	                $.t11.set(1)
+	                $.t12.set(1)
+									$.t16.set(1)
+	                $.t17.set(1)                  
+				
+      }
+      method redraw {
+                $.w.redraw()
+                methodbroadcast()
+      }
+      method resize (sz) {
+                if ( nargs() > 0 )
+                        $.w.resize(sz)
+                margin=3
+                $.y0 = $.ymin()+3
+        	$.y1 = $.ymax()
+					tx=float($.textwidth())
+        	$.x0 = float($.xmin() + margin)
+        	$.x1 = float($.xmax())
+        	ty = $.textheight() + 3
+          dy = ($.y1-$.y0-ty*0)/2
+          dx = ($.x1-$.x0-8*tx)/12
+          #print($.x1-$.x0-8*tx,($.x1-$.x0-8*tx)/12)
+        	$.ym0 = $.y0
+        	$.ym1 = $.ym0 + dy
+        	$.ym2 = $.ym1 + dy
+        	$.ym3 = $.ym2 + dy
+        	$.ym4 = $.ym3 + dy
+        	$.ym5 = $.ym4 + dy
+        	
+        	$.xm0 = $.x0 + 8.0*tx+margin
+          $.xm1 = $.xm0 + dx
+          $.xm2 = $.xm0 + 2.0*dx
+        	$.xm3 = $.xm0 + 3.0*dx
+        	$.xm4 = $.xm0 + 4.0*dx
+        	$.xm5 = $.xm0 + 5.0*dx
+        	$.xm6 = $.xm0 + 6.0*dx
+        	$.xm7 = $.xm0 + 7.0*dx
+        	$.xm8 = $.xm0 + 8.0*dx
+        	$.xm9 = $.xm0 + 9.0*dx
+        	$.xm10 = $.xm0 + 10.0*dx
+        	$.xm11 = $.xm0 + 11.0*dx
+        	$.xm12 = $.xm0 + 12.0*dx
+        	#print($.xm12,dx,dx*12,dx*12+8*tx,dx*12+8*tx+$.x0,$.x1)
+								$.keystext.resize(xy($.x0-margin,$.ym0,$.xm0,$.ym1-1))
+                $.t1.resize(xy($.xm0,$.ym0,$.xm1-margin,$.ym1-margin))
+                $.t2.resize(xy($.xm1,$.ym0,$.xm2-margin,$.ym1-margin))
+                $.t3.resize(xy($.xm2,$.ym0,$.xm3-margin,$.ym1-margin))
+                $.t4.resize(xy($.xm3,$.ym0,$.xm4-margin,$.ym1-margin))
+                
+                $.t5.resize(xy($.xm4,$.ym0,$.xm5-margin,$.ym1-margin))
+                $.t6.resize(xy($.xm5,$.ym0,$.xm6-margin,$.ym1-margin))
+                $.t7.resize(xy($.xm6,$.ym0,$.xm7-margin,$.ym1-margin))
+                $.t8.resize(xy($.xm7,$.ym0,$.xm8-margin,$.ym1-margin))
+                
+                $.t9.resize(xy($.xm8,$.ym0,$.xm9-margin,$.ym1-margin))
+                $.t10.resize(xy($.xm9,$.ym0,$.xm10-margin,$.ym1-margin))
+                $.t11.resize(xy($.xm10,$.ym0,$.xm11-margin,$.ym1-margin))
+                $.t12.resize(xy($.xm11,$.ym0,$.xm12-margin,$.ym1-margin))
+                
+                $.octavestext.resize(xy($.x0-margin,$.ym1+1,$.xm0,$.y1))
+                dx = ($.x1-$.x0-8*tx)/7
+                $.xm0 = $.x0 + 8*tx+margin
+                $.xm1 = $.xm0 + dx
+			        	$.xm2 = $.xm1 + dx
+			        	$.xm3 = $.xm2+ dx
+			        	$.xm4 = $.xm3+ dx
+			           $.xm5 = $.xm4 + dx
+			           $.xm6 = $.xm5+ dx
+			           $.xm7 = $.xm6+ dx
+			           #print($.xm7,$.x1)
+			             
+                $.t13.resize(xy($.xm0,$.ym1+margin,$.xm1-margin,$.y1))
+                $.t14.resize(xy($.xm1,$.ym1+margin,$.xm2-margin,$.y1))
+                $.t15.resize(xy($.xm2,$.ym1+margin,$.xm3-margin,$.y1))
+                $.t16.resize(xy($.xm3,$.ym1+margin,$.xm4-margin,$.y1))
+                $.t17.resize(xy($.xm4,$.ym1+margin,$.xm5-margin,$.y1))
+                $.t18.resize(xy($.xm5,$.ym1+margin,$.xm6-margin,$.y1))
+                $.t19.resize(xy($.xm6,$.ym1+margin,$.xm7-margin,$.y1))
+                
+                
+        }
+        
+      method t1toggle (value) {
+       	Selectedkeysarray[0] = value
+       	      	
+      }
+      method t2toggle (value) {
+      	Selectedkeysarray[1] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t3toggle (value) {
+      	Selectedkeysarray[2] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t4toggle (value) {
+      	Selectedkeysarray[3] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t5toggle (value) {
+      	Selectedkeysarray[4] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t6toggle (value) {
+      	Selectedkeysarray[5] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t7toggle (value) {
+      	Selectedkeysarray[6] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t8toggle (value) {
+      	Selectedkeysarray[7] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t9toggle (value) {
+      	Selectedkeysarray[8] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t10toggle (value) {
+      	Selectedkeysarray[9] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t11toggle (value) {
+      	Selectedkeysarray[10] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      method t12toggle (value) {
+      	Selectedkeysarray[11] = value
+      	#Selectedkeysarray=$.Selectedkeysarray
+      }
+      #octaves
+      method t13toggle (value) {
+      	Selectedoctavesarray[0] = value
+      }
+      method t14toggle (value) {
+      	Selectedoctavesarray[1] = value
+      }
+      method t15toggle (value) {
+      	Selectedoctavesarray[2] = value
+      }
+      method t16toggle (value) {
+      	Selectedoctavesarray[3] = value
+      }
+      method t17toggle (value) {
+      	Selectedoctavesarray[4] = value
+      }
+      method t18toggle (value) {
+      	Selectedoctavesarray[5] = value
+      }
+      method t19toggle (value) {
+      	Selectedoctavesarray[6] = value
+      }
+      method keysetstate {
+      	$.t1.set(Selectedkeysarray[0]) 
+        $.t2.set(Selectedkeysarray[1])
+        $.t3.set(Selectedkeysarray[2])
+        $.t4.set(Selectedkeysarray[3])
+        $.t5.set(Selectedkeysarray[4])
+        $.t6.set(Selectedkeysarray[5])
+        $.t7.set(Selectedkeysarray[6])
+        $.t8.set(Selectedkeysarray[7])
+        $.t9.set(Selectedkeysarray[8])
+        $.t10.set(Selectedkeysarray[9])
+        $.t11.set(Selectedkeysarray[10])
+        $.t12.set(Selectedkeysarray[11])
+        
+        $.t13.set(Selectedoctavesarray[0])
+        $.t14.set(Selectedoctavesarray[1])
+        $.t15.set(Selectedoctavesarray[2])
+        $.t16.set(Selectedoctavesarray[3])
+        $.t17.set(Selectedoctavesarray[4])
+        $.t18.set(Selectedoctavesarray[5])
+        $.t19.set(Selectedoctavesarray[6])
+        
+        $.redraw()
+        
+      }
+      	
+
+}
+
